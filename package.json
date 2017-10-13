@@ -1,11 +1,10 @@
 {
   "name": "birthday-countdown-js",
   "version": "1.0.0",
-  "description": "",
+  "description": "birthday countdown ES5 javascript",
   "main": "none",
   "scripts": {
-    "test": "npm run test:js",
-    "test:js": "eslint js/*.js; exit 0",
+    "test": "eslint js/*.js; exit 0",
     "serve": "browser-sync start --serveStatic 'src/' --server --files 'src/*.js, src/index.html'"
   },
   "author": "yamanoku",
@@ -13,5 +12,17 @@
   "devDependencies": {
     "browser-sync": "^2.18.13",
     "eslint": "^4.8.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yamanoku/birthday-countdown-js.git"
+  },
+  "keywords": [
+    "birthday",
+    "countdown"
+  ],
+  "bugs": {
+    "url": "https://github.com/yamanoku/birthday-countdown-js/issues"
+  },
+  "homepage": "https://github.com/yamanoku/birthday-countdown-js#readme"
 }
