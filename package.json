@@ -1,0 +1,17 @@
+{
+  "name": "birthday-countdown-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "none",
+  "scripts": {
+    "test": "npm run test:js",
+    "test:js": "eslint js/*.js; exit 0",
+    "serve": "browser-sync start --serveStatic 'src/' --server --files 'src/*.js, src/index.html'"
+  },
+  "author": "yamanoku",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "^2.18.13",
+    "eslint": "^4.8.0"
+  }
+}
