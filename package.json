@@ -21,22 +21,16 @@
     "lint-staged": "^4.3.0"
   },
   "babel": {
-    "presets": [
-      "es2015"
-    ]
+    "presets": ["es2015"]
   },
   "lint-staged": {
-    "*.js": ["eslint"]
+    "src/*.js": ["test"]
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yamanoku/birthday-countdown-js.git"
   },
-  "keywords": [
-    "birthday",
-    "countdown",
-    "ES2015"
-  ],
+  "keywords": ["birthday", "countdown", "ES2015"],
   "bugs": {
     "url": "https://github.com/yamanoku/birthday-countdown-js/issues"
   },
