@@ -4,9 +4,11 @@
   "description": "birthday countdown javascript",
   "main": "none",
   "scripts": {
-    "test": "eslint js/*.js; exit 0",
+    "test": "eslint src/*.js; exit 0",
     "build": "babel src -d build",
-    "serve": "browser-sync start --serveStatic 'src/' --server --files 'src/*.js, src/index.html'"
+    "serve": "browser-sync start --serveStatic 'src/' --server --files 'src/*.js, src/index.html'",
+    "precommit": "lint-staged",
+    "postmerge": "(git diff 'HEAD@{1}' --name-only | grep package.json > /dev/null) && yarn || :"
   },
   "author": "yamanoku",
   "license": "MIT",
@@ -14,16 +16,27 @@
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "browser-sync": "^2.18.13",
-    "eslint": "^4.8.0"
+    "eslint": "^4.8.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.3.0"
   },
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
+  },
+  "lint-staged": {
+    "src/*.js": ["eslint"]
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yamanoku/birthday-countdown-js.git"
   },
-  "keywords": ["birthday", "countdown", "ES2015"],
+  "keywords": [
+    "birthday",
+    "countdown",
+    "ES2015"
+  ],
   "bugs": {
     "url": "https://github.com/yamanoku/birthday-countdown-js/issues"
   },
