@@ -1,26 +1,29 @@
 {
   "name": "birthday-countdown-js",
-  "version": "1.0.0",
-  "description": "birthday countdown ES5 javascript",
+  "version": "2.0.0",
+  "description": "birthday countdown javascript",
   "main": "none",
   "scripts": {
     "test": "eslint js/*.js; exit 0",
+    "build": "babel src -d build",
     "serve": "browser-sync start --serveStatic 'src/' --server --files 'src/*.js, src/index.html'"
   },
   "author": "yamanoku",
   "license": "MIT",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
     "browser-sync": "^2.18.13",
     "eslint": "^4.8.0"
+  },
+  "babel": {
+    "presets": ["es2015"]
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yamanoku/birthday-countdown-js.git"
   },
-  "keywords": [
-    "birthday",
-    "countdown"
-  ],
+  "keywords": ["birthday", "countdown", "ES2015"],
   "bugs": {
     "url": "https://github.com/yamanoku/birthday-countdown-js/issues"
   },

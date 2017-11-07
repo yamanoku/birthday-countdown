@@ -6,11 +6,14 @@
 
 ``` bash
 # install dependencies
-npm install (yarn)
+yarn（npm install）
 
 # serve with hot reload at localhost:3000
-npm run serve (yarn serve)
+yarn serve（npm run serve）
 
 # test for production
-npm run test (yarn test)
+yarn test（npm run test）
+
+# babel compiler es5
+yarn build（npm run build）
 ```
