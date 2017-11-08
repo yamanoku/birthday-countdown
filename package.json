@@ -4,7 +4,7 @@
   "description": "birthday countdown javascript",
   "main": "none",
   "scripts": {
-    "test": "eslint src/*.js; exit 0",
+    "lint": "eslint src/*.js; exit 0",
     "build": "babel src -d build",
     "serve": "browser-sync start --serveStatic 'src/' --server --files 'src/*.js, src/index.html'",
     "precommit": "lint-staged",

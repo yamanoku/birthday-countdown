@@ -11,8 +11,8 @@ yarn（npm install）
 # serve with hot reload at localhost:3000
 yarn serve（npm run serve）
 
-# test for production
-yarn test（npm run test）
+# lint for production
+yarn lint（npm run lint）
 
 # babel compiler es5
 yarn build（npm run build）
