@@ -17,7 +17,7 @@ class CountdownTimer {
         const min = Math.floor(((this.tl - Number(today)) % (24 * 60 * 60 * 1000)) / (60 * 1000)) % 60;
         const sec = Math.floor(((this.tl - Number(today)) % (24 * 60 * 60 * 1000)) / 1000) % 60 % 60;
         if ((this.tl - Number(today)) > 0 || (this.tl - Number(today)) < -86400000) {
-            let timer: string = "";
+            let timer = "";
             timer += `
             <p>やまのくの誕生日まで</p>
             <div class="number">
@@ -55,7 +55,7 @@ function CDT<T>(tl: T, mes: T) {
 window.onload = () => {
     const now: Date = new Date();
     let tl: Date = new Date(now.getFullYear(), 9, 30);
-    let m: Date;
+    const m: Date;
     if ((Number(tl) - Number(now)) < -86400000) {
         tl = new Date(now.getFullYear() + 1, 9, 30);
     }
