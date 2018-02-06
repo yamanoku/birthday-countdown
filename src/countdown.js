@@ -8,12 +8,11 @@ class CountdownTimer {
     }
     countDown() {
         const today = new Date();
-        const day = Math.floor((this.tl - today) / (24 * 60 * 60 * 1000));
-        const hour = Math.floor(((this.tl - today) % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-        const min = Math.floor(((this.tl - today) % (24 * 60 * 60 * 1000)) / (60 * 1000)) % 60;
-        const sec = Math.floor(((this.tl - today) % (24 * 60 * 60 * 1000)) / 1000) % 60 % 60;
-        const me = this;
-        if ((this.tl - today) > 0 || (this.tl - today) < -86400000) {
+        const day = Math.floor((this.tl - Number(today)) / (24 * 60 * 60 * 1000));
+        const hour = Math.floor(((this.tl - Number(today)) % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+        const min = Math.floor(((this.tl - Number(today)) % (24 * 60 * 60 * 1000)) / (60 * 1000)) % 60;
+        const sec = Math.floor(((this.tl - Number(today)) % (24 * 60 * 60 * 1000)) / 1000) % 60 % 60;
+        if ((this.tl - Number(today)) > 0 || (this.tl - Number(today)) < -86400000) {
             let timer = '';
             timer += `
             <p>やまのくの誕生日まで</p>
@@ -26,10 +25,16 @@ class CountdownTimer {
             `;
             document.getElementById('CDT').innerHTML = timer;
             setTimeout(() => {
-                me.countDown();
+                this.countDown();
             }, 10);
         } else {
-            document.getElementById('CDT').innerHTML = this.mes;
+            let mes = '';
+            mes += `
+            <p class="birth_end">今日誕生日です</p>
+            <a class="birth_btn" href="http://amzn.asia/cti4d0v" target="_blank">欲しいものを送ってやる</a>
+            <a class="birth_btn" href="http://amzn.asia/8Kh4dGA" target="_blank">酒を送ってやる</a>
+            `;
+            document.getElementById('CDT').innerHTML = mes;
             return;
         }
     }
@@ -46,13 +51,8 @@ function CDT(tl, mes) {
 window.onload = () => {
     const now = new Date();
     let tl = new Date(now.getFullYear(), 9, 30);
-    let mes = '';
-    mes += `
-    <p class="birth_end">今日誕生日です</p>
-    <a class="birth_btn" href="http://amzn.asia/cti4d0v" target="_blank">欲しいものを送ってやる</a>
-    <a class="birth_btn" href="http://amzn.asia/8Kh4dGA" target="_blank">酒を送ってやる</a>
-    `;
-    if ((tl - now) < -86400000) {
+    let mes;
+    if ((Number(tl) - Number(now)) < -86400000) {
         tl = new Date(now.getFullYear() + 1, 9, 30);
     }
     CDT(tl, mes);
