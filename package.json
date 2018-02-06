@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "eslint src/*.js; exit 0",
     "build": "babel src -d build",
+    "tsbuild": "tsc src/ts/* --outDir build/ts/",
     "serve": "browser-sync start --serveStatic 'src/' --server --files 'src/*.js, src/index.html'",
     "precommit": "lint-staged",
     "postmerge": "(git diff 'HEAD@{1}' --name-only | grep package.json > /dev/null) && yarn || :"
@@ -18,7 +19,8 @@
     "browser-sync": "^2.18.13",
     "eslint": "^4.8.0",
     "husky": "^0.14.3",
-    "lint-staged": "^4.3.0"
+    "lint-staged": "^4.3.0",
+    "tsc": "^1.20150623.0"
   },
   "babel": {
     "presets": [
