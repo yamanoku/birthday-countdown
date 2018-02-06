@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint src/*.js; exit 0",
     "build": "babel src -d build",
-    "tsbuild": "tsc src/ts/* --outDir build/ts/",
+    "tsc": "tsc",
     "serve": "browser-sync start --serveStatic 'src/' --server --files 'src/*.js, src/index.html'",
     "precommit": "lint-staged",
     "postmerge": "(git diff 'HEAD@{1}' --name-only | grep package.json > /dev/null) && yarn || :"
