@@ -1,6 +1,6 @@
 {
   "name": "birthday-countdown-js",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "birthday countdown javascript",
   "main": "none",
   "scripts": {
@@ -44,7 +44,8 @@
   "keywords": [
     "birthday",
     "countdown",
-    "ES2015"
+    "ES2015",
+    "typescript"
   ],
   "bugs": {
     "url": "https://github.com/yamanoku/birthday-countdown-js/issues"
