@@ -30,7 +30,15 @@ class CountdownTimer {
             }, 10);
         } else {
             let mes = "";
-            mes += '<p class="birth_end">今日誕生日です</p><a class="birth_btn" href="http://amzn.asia/cti4d0v" target="_blank">欲しいものを送ってやる</a><a class="birth_btn" href="http://amzn.asia/8Kh4dGA" target="_blank">酒を送ってやる</a>';
+            mes += `
+                <p class="birth_end">今日誕生日です</p>
+                <a class="birth_btn" href="http://amzn.asia/cti4d0v" target="_blank">
+                    欲しいものを送ってやる
+                </a>
+                <a class="birth_btn" href="http://amzn.asia/8Kh4dGA" target="_blank">
+                    酒を送ってやる
+                </a>
+            `;
             document.getElementById("CDT").innerHTML = mes;
             return;
         }
@@ -48,7 +56,7 @@ function CDT<T>(tl: T, mes: T) {
 window.onload = () => {
     const now: Date = new Date();
     let tl: Date = new Date(now.getFullYear(), 9, 30);
-    const m: Date;
+    const m: Date = new Date();
     if ((Number(tl) - Number(now)) < -86400000) {
         tl = new Date(now.getFullYear() + 1, 9, 30);
     }
