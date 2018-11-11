@@ -1,14 +1,12 @@
 class CountdownTimer {
     public timer: string;
     public tl: number;
-    public mes: string;
     public today: Date;
-    constructor(tl, mes) {
-        this.initialize(tl, mes);
+    constructor(tl) {
+        this.initialize(tl);
     }
-    public initialize(tl, mes): void {
+    public initialize(tl): void {
         this.tl = tl;
-        this.mes = mes;
     }
     public countDown(): void {
         const today = new Date();
@@ -48,17 +46,12 @@ class CountdownTimer {
     }
 }
 
-function CDT<T>(tl: T, mes: T) {
-    const timer = new CountdownTimer(tl, mes);
-    timer.countDown();
-}
-
 window.onload = () => {
     const now: Date = new Date();
     let tl: Date = new Date(now.getFullYear(), 9, 30);
-    const m: Date = new Date();
     if ((Number(tl) - Number(now)) < -86400000) {
         tl = new Date(now.getFullYear() + 1, 9, 30);
     }
-    CDT(tl, m);
+    const timer = new CountdownTimer(tl);
+    timer.countDown();
 };

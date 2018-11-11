@@ -2,9 +2,8 @@ class CountdownTimer {
     constructor() {
         this.initialize(...arguments);
     }
-    initialize(tl, mes) {
+    initialize(tl) {
         this.tl = tl;
-        this.mes = mes;
     }
     countDown() {
         const today = new Date();
@@ -14,11 +13,25 @@ class CountdownTimer {
         const sec = Math.floor(((this.tl - Number(today)) % (24 * 60 * 60 * 1000)) / 1000) % 60 % 60;
         if ((this.tl - Number(today)) > 0 || (this.tl - Number(today)) < -86400000) {
             let timer = '';
-            timer += `<p>やまのくの誕生日まで</p><div class="number">
-            <p><span class="number-day">${day}</span><span class="number_value">day</span></p>
-            <p><span class="number-hour">${this.addZero(hour)}</span><span class="number_value">hour</span></p>
-            <p><span class="number-min">${this.addZero(min)}</span><span class="number_value">min</span></p>
-            <p><span class="number-sec">${this.addZero(sec)}</span><span class="number_value">sec</span></p>
+            timer += `
+            <p>やまのくの誕生日まで</p>
+            <div class="number">
+                <p>
+                    <span class="number-day">${day}</span>
+                    <span class="number_value">day</span>
+                </p>
+                <p>
+                    <span class="number-hour">${this.addZero(hour)}</span>
+                    <span class="number_value">hour</span>
+                </p>
+                <p>
+                    <span class="number-min">${this.addZero(min)}</span>
+                    <span class="number_value">min</span>
+                </p>
+                <p>
+                    <span class="number-sec">${this.addZero(sec)}</span>
+                    <span class="number_value">sec</span>
+                </p>
             </div>`;
             document.getElementById('CDT').innerHTML = timer;
             setTimeout(() => {
@@ -26,7 +39,15 @@ class CountdownTimer {
             }, 10);
         } else {
             let mes = '';
-            mes += '<p class="birth_end">今日誕生日です</p><a class="birth_btn" href="http://amzn.asia/cti4d0v" target="_blank">欲しいものを送ってやる</a><a class="birth_btn" href="http://amzn.asia/8Kh4dGA" target="_blank">酒を送ってやる</a>';
+            mes += `
+            <p class="birth_end">今日誕生日です</p>
+            <a class="birth_btn" href="http://amzn.asia/cti4d0v" target="_blank">
+                欲しいものを送ってやる
+            </a>
+            <a class="birth_btn" href="http://amzn.asia/8Kh4dGA" target="_blank">
+                酒を送ってやる
+            </a>
+            `;
             document.getElementById('CDT').innerHTML = mes;
             return;
         }
@@ -36,17 +57,12 @@ class CountdownTimer {
     }
 }
 
-function CDT(tl, mes) {
-    const timer = new CountdownTimer(tl, mes);
-    timer.countDown();
-}
-
 window.onload = () => {
     const now = new Date();
     let tl = new Date(now.getFullYear(), 9, 30);
-    let mes;
     if ((Number(tl) - Number(now)) < -86400000) {
         tl = new Date(now.getFullYear() + 1, 9, 30);
     }
-    CDT(tl, mes);
+    const timer = new CountdownTimer(tl);
+    timer.countDown();
 };
