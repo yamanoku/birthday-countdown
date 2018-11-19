@@ -19,7 +19,7 @@
     "browser-sync": "2.26.3",
     "eslint": "5.9.0",
     "husky": "1.1.4",
-    "lint-staged": "8.0.4",
+    "lint-staged": "8.0.5",
     "tsc": "1.20150623.0",
     "tslint": "5.11.0",
     "typescript": "3.1.6"
