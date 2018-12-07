@@ -22,7 +22,7 @@
     "lint-staged": "8.1.0",
     "tsc": "1.20150623.0",
     "tslint": "5.11.0",
-    "typescript": "3.2.1"
+    "typescript": "3.2.2"
   },
   "babel": {
     "presets": [
