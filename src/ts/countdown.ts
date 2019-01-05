@@ -2,10 +2,7 @@ class CountdownTimer {
     public timer: string;
     public tl: number;
     public today: Date;
-    constructor(tl) {
-        this.initialize(tl);
-    }
-    public initialize(tl): void {
+    constructor(tl: any) {
         this.tl = tl;
     }
     public countDown(): void {
