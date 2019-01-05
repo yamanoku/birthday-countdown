@@ -7,9 +7,7 @@
     "lint": "eslint src/*.js && tslint src/ts/*.ts; exit 0",
     "build": "babel src -d build",
     "ntsc": "ntsc",
-    "serve": "browser-sync start --serveStatic 'src/' --server --files 'src/*.js, src/index.html'",
-    "precommit": "lint-staged",
-    "postmerge": "(git diff 'HEAD@{1}' --name-only | grep package.json > /dev/null) && yarn || :"
+    "serve": "browser-sync start --serveStatic 'src/' --server --files 'src/*.js, src/index.html'"
   },
   "author": "yamanoku",
   "license": "MIT",
@@ -53,5 +51,11 @@
   "homepage": "https://github.com/yamanoku/birthday-countdown-js#readme",
   "dependencies": {
     "global": "^4.3.2"
+  },
+  "husky": {
+    "hooks": {
+      "post-merge": "(git diff 'HEAD@{1}' --name-only | grep package.json > /dev/null) && yarn || :",
+      "pre-commit": "lint-staged"
+    }
   }
 }
