@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint src/*.js && tslint src/ts/*.ts; exit 0",
     "build": "babel src -d build",
-    "tsc": "tsc",
+    "ntsc": "ntsc",
     "serve": "browser-sync start --serveStatic 'src/' --server --files 'src/*.js, src/index.html'",
     "precommit": "lint-staged",
     "postmerge": "(git diff 'HEAD@{1}' --name-only | grep package.json > /dev/null) && yarn || :"
@@ -15,18 +15,19 @@
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "6.26.0",
-    "babel-preset-es2015": "6.24.1",
+    "babel-preset-env": "1.7.0",
     "browser-sync": "2.26.3",
     "eslint": "5.11.1",
     "husky": "1.3.1",
     "lint-staged": "8.1.0",
+    "ntypescript": "1.201706190042.1",
     "tsc": "1.20150623.0",
     "tslint": "5.12.0",
     "typescript": "3.2.2"
   },
   "babel": {
     "presets": [
-      "es2015"
+      "env"
     ]
   },
   "lint-staged": {
