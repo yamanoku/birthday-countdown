@@ -20,7 +20,7 @@
     "lint-staged": "8.1.4",
     "ntypescript": "1.201706190042.1",
     "tslint": "5.12.1",
-    "typescript": "3.3.3"
+    "typescript": "3.3.3333"
   },
   "babel": {
     "presets": [
