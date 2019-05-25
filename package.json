@@ -4,35 +4,23 @@
   "description": "birthday countdown javascript",
   "main": "none",
   "scripts": {
-    "lint": "eslint src/*.js && tslint src/ts/*.ts; exit 0",
-    "build": "babel src -d build",
-    "ntsc": "ntsc",
-    "serve": "browser-sync start --serveStatic 'src/' --server --files 'src/*.js, src/index.html'"
+    "lint": "eslint src/countdown.ts",
+    "build": "tsc -b",
+    "serve": "browser-sync start --serveStatic 'src/' --server --files 'build/*.js, src/index.html'"
   },
   "author": "yamanoku",
   "license": "MIT",
   "devDependencies": {
-    "babel-cli": "6.26.0",
-    "babel-preset-env": "1.7.0",
-    "browser-sync": "2.26.5",
-    "eslint": "5.16.0",
-    "husky": "2.3.0",
-    "lint-staged": "8.1.7",
-    "ntypescript": "1.201706190042.1",
-    "tslint": "5.16.0",
-    "typescript": "3.4.5"
-  },
-  "babel": {
-    "presets": [
-      "env"
-    ]
+    "@typescript-eslint/eslint-plugin": "1.9.0",
+    "browser-sync": "2.26.3",
+    "eslint": "5.11.1",
+    "husky": "1.3.1",
+    "lint-staged": "8.1.0",
+    "typescript": "3.2.2"
   },
   "lint-staged": {
-    "src/*.js": [
-      "test"
-    ],
-    "src/ts/*.ts": [
-      "test"
+    "src/*.ts": [
+      "lint"
     ]
   },
   "repository": {
@@ -49,13 +37,10 @@
     "url": "https://github.com/yamanoku/birthday-countdown-js/issues"
   },
   "homepage": "https://github.com/yamanoku/birthday-countdown-js#readme",
-  "dependencies": {
-    "global": "^4.3.2"
-  },
   "husky": {
     "hooks": {
       "post-merge": "(git diff 'HEAD@{1}' --name-only | grep package.json > /dev/null) && yarn || :",
-      "pre-commit": "lint-staged"
+      "pre-commit": "yarn lint"
     }
   }
 }
