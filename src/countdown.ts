@@ -2,7 +2,7 @@ class CountdownTimer {
     public timer: string;
     public tl: number;
     public today: Date;
-    constructor(tl: any) {
+    public constructor(tl: number) {
         this.tl = tl;
     }
     public countDown(): void {
@@ -45,9 +45,9 @@ class CountdownTimer {
 
 window.onload = () => {
     const now: Date = new Date();
-    let tl: Date = new Date(now.getFullYear(), 9, 30);
+    let tl: number = Number(new Date(now.getFullYear(), 9, 30)); // eslint-disable-line
     if ((Number(tl) - Number(now)) < -86400000) {
-        tl = new Date(now.getFullYear() + 1, 9, 30);
+        tl = Number(new Date(now.getFullYear() + 1, 9, 30));
     }
     const timer = new CountdownTimer(tl);
     timer.countDown();
