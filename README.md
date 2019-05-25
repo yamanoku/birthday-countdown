@@ -11,12 +11,12 @@
 # install dependencies
 yarn（npm install）
 
+# compile typescript
+yarn build（npm run build）
+
 # serve with hot reload at localhost:3000
 yarn serve（npm run serve）
 
 # lint for production
 yarn lint（npm run lint）
-
-# babel compiler es5
-yarn build（npm run build）
 ```
