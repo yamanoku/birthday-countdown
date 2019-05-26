@@ -3,7 +3,8 @@ module.exports = {
         "browser": true
     },
     "extends": [
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:prettier/recommended"
     ],
     "plugins": [
         "@typescript-eslint"
@@ -14,6 +15,7 @@ module.exports = {
         "project": "./tsconfig.json"
     },
     "rules": {
-        "@typescript-eslint/explicit-function-return-type": 0
+        "@typescript-eslint/explicit-function-return-type": 0,
+        "@typescript-eslint/indent": ["error", 2]
     }
 };
