@@ -3,7 +3,9 @@
     "sourceMap": false,
     "target": "es6",
     "outDir": "./build/",
-    "module": "commonjs"
+    "module": "commonjs",
+    "allowJs": true,
+    "checkJs": true
   },
   "include": ["src"],
   "exclude": ["node_modules"]
