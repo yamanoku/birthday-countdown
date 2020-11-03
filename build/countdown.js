@@ -29,7 +29,7 @@ class CountdownTimer {
 }
 window.onload = () => {
     const now = new Date();
-    let tl = Number(new Date(now.getFullYear(), 9, 30)); // eslint-disable-line
+    let tl = Number(new Date(now.getFullYear(), 9, 30));
     if (Number(tl) - Number(now) < -86400000) {
         tl = Number(new Date(now.getFullYear() + 1, 9, 30));
     }
