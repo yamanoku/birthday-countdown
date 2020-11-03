@@ -9,14 +9,14 @@
 
 ``` bash
 # install dependencies
-yarn（npm install）
+npm install
 
 # compile typescript
-yarn build（npm run build）
+npm run build
 
 # serve with hot reload at localhost:3000
-yarn serve（npm run serve）
+npm run serve
 
 # lint for production
-yarn lint（npm run lint）
+npm run lint
 ```

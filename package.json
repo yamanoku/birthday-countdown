@@ -44,8 +44,8 @@
   "homepage": "https://github.com/yamanoku/birthday-countdown-js#readme",
   "husky": {
     "hooks": {
-      "post-merge": "(git diff 'HEAD@{1}' --name-only | grep package.json > /dev/null) && yarn || :",
-      "pre-commit": "yarn lint"
+      "post-merge": "(git diff 'HEAD@{1}' --name-only | grep package.json > /dev/null) && npm ci || :",
+      "pre-commit": "npm run lint"
     }
   }
 }
