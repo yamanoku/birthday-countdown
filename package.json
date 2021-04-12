@@ -13,8 +13,8 @@
   "author": "yamanoku",
   "license": "MIT",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "4.21.0",
-    "@typescript-eslint/parser": "4.21.0",
+    "@typescript-eslint/eslint-plugin": "4.22.0",
+    "@typescript-eslint/parser": "4.22.0",
     "browser-sync": "2.26.14",
     "eslint": "7.24.0",
     "eslint-config-prettier": "8.1.0",
