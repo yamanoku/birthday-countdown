@@ -8,7 +8,8 @@
     "build": "tsc -b",
     "watch": "tsc -w",
     "serve": "browser-sync start --serveStatic 'src/' --server --files 'build/*.js, src/index.html'",
-    "prettier": "prettier **/*.{ts,js}"
+    "prettier": "prettier **/*.{ts,js}",
+    "prepare": "husky install"
   },
   "author": "yamanoku",
   "license": "MIT",
@@ -19,7 +20,7 @@
     "eslint": "7.25.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "3.4.0",
-    "husky": "6.0.0",
+    "husky": "^6.0.0",
     "lint-staged": "10.5.4",
     "prettier": "2.2.1",
     "typescript": "4.2.4"
