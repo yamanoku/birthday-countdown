@@ -20,6 +20,9 @@ class CountdownTimer {
       (Math.floor(((this.tl - Number(today)) % (24 * 60 * 60 * 1000)) / 1000) %
         60) %
       60;
+    const countDownTimerElement: HTMLElement | null =
+      document.getElementById("CDT");
+    if (countDownTimerElement === null) return;
     if (this.tl - Number(today) > 0 || this.tl - Number(today) < -86400000) {
       const timer = `<p>やまのくの誕生日まで</p><div class="number"><p><span class="number-day">${day}</span><span class="number_value">day</span></p><p><span class="number-hour">${this.addZero(
         hour
@@ -28,12 +31,12 @@ class CountdownTimer {
       )}</span><span class="number_value">min</span></p><p><span class="number-sec">${this.addZero(
         sec
       )}</span><span class="number_value">sec</span></p></div>`;
-      document.getElementById("CDT").innerHTML = timer;
+      countDownTimerElement.innerHTML = timer;
       setTimeout(() => {
         this.countDown();
       }, 10);
     } else {
-      document.getElementById("CDT").innerHTML = this.birthdayMessage;
+      countDownTimerElement.innerHTML = this.birthdayMessage;
       return;
     }
   }
