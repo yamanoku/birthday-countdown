@@ -33,19 +33,19 @@ class CountdownTimer {
           </p>
           <p>
             <span class="number-hour">
-              ${this.addZero(hour)}
+            ${String(hour).padStart(2, "0")}
             </span>
             <span class="number_value">hour</span>
           </p>
           <p>
             <span class="number-min">
-              ${this.addZero(min)}
+            ${String(min).padStart(2, "0")}
             </span>
             <span class="number_value">min</span>
           </p>
           <p>
             <span class="number-sec">
-              ${this.addZero(sec)}
+              ${String(sec).padStart(2, "0")}
             </span>
             <span class="number_value">sec</span>
           </p>
@@ -58,9 +58,6 @@ class CountdownTimer {
       countDownTimerElement.innerHTML = this.birthdayMessage;
       return;
     }
-  }
-  public addZero(num: number): string {
-    return `0${num}`.slice(-2);
   }
 }
 
