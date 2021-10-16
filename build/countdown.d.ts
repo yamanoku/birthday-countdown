@@ -1,8 +1,7 @@
 declare class CountdownTimer {
-    timer: string;
-    tl: number;
-    today: Date;
-    constructor(tl: number);
+    elementID: string;
+    birthDay: Date;
+    birthdayMessage: string;
+    constructor(elementID: string, birthDay: Date, birthdayMessage: string);
     countDown(): void;
-    addZero(num: number): string;
 }
