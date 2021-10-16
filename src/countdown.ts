@@ -13,32 +13,20 @@ class CountdownTimer {
   }
   public countDown(): void {
     const today = new Date();
-    const day = Math.floor(
-      (Number(this.birthDay) - Number(today)) / (24 * 60 * 60 * 1000)
-    );
+    const timeLeft = Number(this.birthDay) - Number(today);
+    const day = Math.floor(timeLeft / (24 * 60 * 60 * 1000));
     const hour = Math.floor(
-      ((Number(this.birthDay) - Number(today)) % (24 * 60 * 60 * 1000)) /
-        (60 * 60 * 1000)
+      (timeLeft % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000)
     );
     const min =
-      Math.floor(
-        ((Number(this.birthDay) - Number(today)) % (24 * 60 * 60 * 1000)) /
-          (60 * 1000)
-      ) % 60;
+      Math.floor((timeLeft % (24 * 60 * 60 * 1000)) / (60 * 1000)) % 60;
     const sec =
-      (Math.floor(
-        ((Number(this.birthDay) - Number(today)) % (24 * 60 * 60 * 1000)) / 1000
-      ) %
-        60) %
-      60;
+      (Math.floor((timeLeft % (24 * 60 * 60 * 1000)) / 1000) % 60) % 60;
     const countDownTimerElement: HTMLElement | null = document.getElementById(
       this.elementID
     );
     if (countDownTimerElement === null) return;
-    if (
-      Number(this.birthDay) - Number(today) > 0 ||
-      Number(this.birthDay) - Number(today) < -86400000
-    ) {
+    if (timeLeft > 0 || timeLeft < -86400000) {
       const timer = `
         <p>やまのくの誕生日まで</p>
         <div class="number">
