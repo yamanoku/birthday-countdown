@@ -16,5 +16,5 @@ npm run build
 npm run serve
 
 # lint for production
-npm run lint
+npm run test
 ```

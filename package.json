@@ -4,12 +4,12 @@
   "description": "birthday countdown javascript",
   "main": "none",
   "scripts": {
-    "lint": "eslint src/countdown.ts",
+    "test": "eslint src/countdown.ts",
     "build": "tsc -b",
     "watch": "tsc -w",
     "serve": "browser-sync start --serveStatic 'src/' --server --files 'build/*.js, src/index.html'",
-    "prettier": "prettier **/*.{ts,js}",
-    "prepare": "husky install"
+    "format": "prettier --write \"src/*.{js,ts}\"",
+    "prepare": "git config --local core.hooksPath .githooks"
   },
   "author": "yamanoku",
   "license": "MIT",
@@ -20,7 +20,6 @@
     "eslint": "8.0.1",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "4.0.0",
-    "husky": "7.0.2",
     "lint-staged": "11.2.3",
     "prettier": "2.4.1",
     "typescript": "4.4.4"
