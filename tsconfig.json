@@ -5,7 +5,8 @@
     "outDir": "./build/",
     "module": "commonjs",
     "allowJs": true,
-    "checkJs": true
+    "checkJs": true,
+    "lib": ["ES2017", "DOM"]
   },
   "include": ["src"],
   "exclude": ["node_modules"]
