@@ -2,7 +2,8 @@ class CountdownTimer {
   public elementID: string;
   public tl: number;
   public birthdayMessage: string;
-  public constructor(tl: number, birthdayMessage: string) {
+  public constructor(elementID: string, tl: number, birthdayMessage: string) {
+    this.elementID = elementID;
     this.tl = tl;
     this.birthdayMessage = birthdayMessage;
   }
@@ -20,8 +21,9 @@ class CountdownTimer {
       (Math.floor(((this.tl - Number(today)) % (24 * 60 * 60 * 1000)) / 1000) %
         60) %
       60;
-    const countDownTimerElement: HTMLElement | null =
-      document.getElementById("CDT");
+    const countDownTimerElement: HTMLElement | null = document.getElementById(
+      this.elementID
+    );
     if (countDownTimerElement === null) return;
     if (this.tl - Number(today) > 0 || this.tl - Number(today) < -86400000) {
       const timer = `
@@ -62,6 +64,7 @@ class CountdownTimer {
 }
 
 window.onload = () => {
+  const elementID = "CDT";
   const now: Date = new Date();
   let tl = Number(new Date(now.getFullYear(), 9, 30));
   if (Number(tl) - Number(now) < -86400000) {
@@ -77,6 +80,6 @@ window.onload = () => {
     <a class="birth_btn" href="http://amzn.asia/8Kh4dGA" target="_blank">
       酒を送ってやる
     </a>`;
-  const timer = new CountdownTimer(tl, birthdayMessage);
+  const timer = new CountdownTimer(elementID, tl, birthdayMessage);
   timer.countDown();
 };
