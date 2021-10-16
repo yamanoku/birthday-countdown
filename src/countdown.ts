@@ -1,7 +1,6 @@
 class CountdownTimer {
-  public timer: string;
+  public elementID: string;
   public tl: number;
-  public today: Date;
   public constructor(tl: number) {
     this.tl = tl;
   }
