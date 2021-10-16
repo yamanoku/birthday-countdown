@@ -24,13 +24,32 @@ class CountdownTimer {
       document.getElementById("CDT");
     if (countDownTimerElement === null) return;
     if (this.tl - Number(today) > 0 || this.tl - Number(today) < -86400000) {
-      const timer = `<p>やまのくの誕生日まで</p><div class="number"><p><span class="number-day">${day}</span><span class="number_value">day</span></p><p><span class="number-hour">${this.addZero(
-        hour
-      )}</span><span class="number_value">hour</span></p><p><span class="number-min">${this.addZero(
-        min
-      )}</span><span class="number_value">min</span></p><p><span class="number-sec">${this.addZero(
-        sec
-      )}</span><span class="number_value">sec</span></p></div>`;
+      const timer = `
+        <p>やまのくの誕生日まで</p>
+        <div class="number">
+          <p>
+            <span class="number-day">${day}</span>
+            <span class="number_value">day</span>
+          </p>
+          <p>
+            <span class="number-hour">
+              ${this.addZero(hour)}
+            </span>
+            <span class="number_value">hour</span>
+          </p>
+          <p>
+            <span class="number-min">
+              ${this.addZero(min)}
+            </span>
+            <span class="number_value">min</span>
+          </p>
+          <p>
+            <span class="number-sec">
+              ${this.addZero(sec)}
+            </span>
+            <span class="number_value">sec</span>
+          </p>
+        </div>`;
       countDownTimerElement.innerHTML = timer;
       setTimeout(() => {
         this.countDown();
