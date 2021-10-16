@@ -1,8 +1,10 @@
 class CountdownTimer {
   public elementID: string;
   public tl: number;
-  public constructor(tl: number) {
+  public birthdayMessage: string;
+  public constructor(tl: number, birthdayMessage: string) {
     this.tl = tl;
+    this.birthdayMessage = birthdayMessage;
   }
   public countDown(): void {
     const today = new Date();
@@ -31,8 +33,7 @@ class CountdownTimer {
         this.countDown();
       }, 10);
     } else {
-      const mes = `<p class="birth_end">今日誕生日です</p><a class="birth_btn" href="http://amzn.asia/cti4d0v" target="_blank">欲しいものを送ってやる</a><a class="birth_btn" href="http://amzn.asia/8Kh4dGA" target="_blank">酒を送ってやる</a>`;
-      document.getElementById("CDT").innerHTML = mes;
+      document.getElementById("CDT").innerHTML = this.birthdayMessage;
       return;
     }
   }
@@ -47,6 +48,16 @@ window.onload = () => {
   if (Number(tl) - Number(now) < -86400000) {
     tl = Number(new Date(now.getFullYear() + 1, 9, 30));
   }
-  const timer = new CountdownTimer(tl);
+  const birthdayMessage = `
+    <p class="birth_end">
+      今日誕生日です
+    </p>
+    <a class="birth_btn" href="http://amzn.asia/cti4d0v" target="_blank">
+      欲しいものを送ってやる
+    </a>
+    <a class="birth_btn" href="http://amzn.asia/8Kh4dGA" target="_blank">
+      酒を送ってやる
+    </a>`;
+  const timer = new CountdownTimer(tl, birthdayMessage);
   timer.countDown();
 };
