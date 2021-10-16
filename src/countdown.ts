@@ -58,7 +58,6 @@ class CountdownTimer {
       }, 10);
     } else {
       countDownTimerElement.innerHTML = this.birthdayMessage;
-      return;
     }
   }
 }
