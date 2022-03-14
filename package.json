@@ -16,7 +16,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "5.14.0",
     "@typescript-eslint/parser": "5.14.0",
-    "browser-sync": "2.27.7",
+    "browser-sync": "2.27.8",
     "eslint": "8.11.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.0.0",
