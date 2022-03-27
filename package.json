@@ -4,7 +4,7 @@
   "description": "birthday countdown javascript",
   "main": "none",
   "scripts": {
-    "test": "eslint src/countdown.ts",
+    "test": "eslint src/main.ts",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
