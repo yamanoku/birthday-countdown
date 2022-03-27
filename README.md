@@ -9,11 +9,11 @@
 # install dependencies
 npm install
 
-# compile typescript
-npm run build
+# serve
+npm run dev
 
-# serve with hot reload at localhost:3000
-npm run serve
+# build
+npm run build
 
 # lint for production
 npm run test
