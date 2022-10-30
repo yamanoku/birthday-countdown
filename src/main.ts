@@ -67,12 +67,14 @@ window.onload = () => {
   const elementID = "CDT";
   const today = new Date();
   let birthDay = new Date(today.getFullYear(), 9, 30);
+  const getAge = today.getFullYear() - 1989;
   if (Number(birthDay) - Number(today) < -86400000) {
     birthDay = new Date(today.getFullYear() + 1, 9, 30);
   }
   const birthdayMessage = `
     <p class="birth_end">
-      今日誕生日です
+      今日は誕生日です<br>
+      ${getAge}歳になりました
     </p>
     <a class="birth_btn" href="http://amzn.asia/cti4d0v" target="_blank">
       欲しいものを送ってやる
