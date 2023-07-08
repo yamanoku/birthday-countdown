@@ -5,7 +5,7 @@ class CountdownTimer {
   public constructor(
     elementID: string,
     birthDay: Date,
-    birthdayMessage: string
+    birthdayMessage: string,
   ) {
     this.elementID = elementID;
     this.birthDay = birthDay;
@@ -16,14 +16,14 @@ class CountdownTimer {
     const timeLeft = Number(this.birthDay) - Number(today);
     const day = Math.floor(timeLeft / (24 * 60 * 60 * 1000));
     const hour = Math.floor(
-      (timeLeft % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000)
+      (timeLeft % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000),
     );
     const min =
       Math.floor((timeLeft % (24 * 60 * 60 * 1000)) / (60 * 1000)) % 60;
     const sec =
       (Math.floor((timeLeft % (24 * 60 * 60 * 1000)) / 1000) % 60) % 60;
     const countDownTimerElement: HTMLElement | null = document.getElementById(
-      this.elementID
+      this.elementID,
     );
     if (countDownTimerElement === null) return;
     if (timeLeft > 0 || timeLeft < -86400000) {
