@@ -27,6 +27,7 @@ export default jsxRenderer(({ children, title }) => {
         <meta name="og:type" content="website" />
         <Script src="/app/client.ts" />
         <Style />
+        <link rel="icon" type="image/x-icon" href="https://yamanoku.net/favicon.ico" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@2.2.1/reset.css" />
       </head>
       <body class={bodyClass}>
