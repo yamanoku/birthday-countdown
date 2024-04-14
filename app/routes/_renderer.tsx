@@ -1,7 +1,7 @@
-import { Style } from 'hono/css'
-import { jsxRenderer } from 'hono/jsx-renderer'
-import { Script } from 'honox/server'
-import { htmlClass, bodyClass } from '../css/classNames';
+import { Style } from "hono/css";
+import { jsxRenderer } from "hono/jsx-renderer";
+import { Script } from "honox/server";
+import { bodyClass, htmlClass } from "../css/classNames";
 
 export default jsxRenderer(({ children, title }) => {
   return (
@@ -10,28 +10,54 @@ export default jsxRenderer(({ children, title }) => {
         <meta charset="utf-8" />
         <title>{title}</title>
         <meta name="description" content="countdown @yamanoku birthday limit" />
-        <meta name="image" content="https://yamanoku.net/og-images/birthday-countdown.png" />
+        <meta
+          name="image"
+          content="https://yamanoku.net/og-images/birthday-countdown.png"
+        />
         <meta itemprop="name" content="yamanoku birthday countdown" />
-        <meta itemprop="description" content="countdown @yamanoku birthday limit" />
-        <meta itemprop="image" content="https://yamanoku.net/og-images/birthday-countdown.png" />
+        <meta
+          itemprop="description"
+          content="countdown @yamanoku birthday limit"
+        />
+        <meta
+          itemprop="image"
+          content="https://yamanoku.net/og-images/birthday-countdown.png"
+        />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content="yamanoku birthday countdown" />
-        <meta name="twitter:description" content="countdown @yamanoku birthday limit" />
+        <meta
+          name="twitter:description"
+          content="countdown @yamanoku birthday limit"
+        />
         <meta name="og:title" content="yamanoku birthday countdown" />
-        <meta name="og:description" content="countdown @yamanoku birthday limit" />
-        <meta name="og:url" content="https://yamanoku.net/birthday-countdown-js/" />
+        <meta
+          name="og:description"
+          content="countdown @yamanoku birthday limit"
+        />
+        <meta
+          name="og:url"
+          content="https://yamanoku.net/birthday-countdown-js/"
+        />
         <meta name="og:site_name" content="yamanoku.net" />
-        <meta name="og:image" content="https://yamanoku.net/og-images/birthday-countdown.png" />
+        <meta
+          name="og:image"
+          content="https://yamanoku.net/og-images/birthday-countdown.png"
+        />
         <meta name="og:locale" content="ja_JP" />
         <meta name="og:type" content="website" />
         <Script src="/app/client.ts" />
         <Style />
-        <link rel="icon" type="image/x-icon" href="https://yamanoku.net/favicon.ico" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@2.2.1/reset.css" />
+        <link
+          rel="icon"
+          type="image/x-icon"
+          href="https://yamanoku.net/favicon.ico"
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/reset-css@2.2.1/reset.css"
+        />
       </head>
-      <body class={bodyClass}>
-        {children}
-      </body>
+      <body class={bodyClass}>{children}</body>
     </html>
-  )
-})
+  );
+});

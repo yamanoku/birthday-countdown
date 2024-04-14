@@ -1,6 +1,6 @@
-import Counter from '../islands/counter'
+import Counter from "../islands/counter";
 
-export const title = 'yamanoku birthday countdown'
+export const title = "yamanoku birthday countdown";
 
 export default function Index() {
   const now = new Date();
@@ -21,5 +21,5 @@ export default function Index() {
     <>
       <Counter days={days} hours={hours} minutes={minutes} seconds={seconds} />
     </>
-  )
+  );
 }

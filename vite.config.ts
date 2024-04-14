@@ -7,11 +7,10 @@ import { defineConfig } from "vite";
 export default defineConfig(({ mode }) => {
   if (mode === "client") {
     return {
-      plugins: [client()],
-    };
-  } else {
-    return {
-      plugins: [honox({ devServer: { adapter } }), pages()],
+      plugins: [client()]
     };
   }
+  return {
+    plugins: [honox({ devServer: { adapter } }), pages()]
+  };
 });

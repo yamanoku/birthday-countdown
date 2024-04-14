@@ -8,13 +8,16 @@
     "dev": "vite",
     "build": "vite build --mode client && vite build",
     "preview": "npx wrangler pages dev ./dist",
-    "deploy": "$npm_execpath run build && npx wrangler pages deploy ./dist"
+    "deploy": "$npm_execpath run build && npx wrangler pages deploy ./dist",
+    "biome": "biome check --apply .",
+    "biome:ci": "biome ci ."
   },
   "dependencies": {
     "hono": "^4.2.3",
     "honox": "^0.1.9"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.6.4",
     "@cloudflare/workers-types": "4.20240405.0",
     "@hono/vite-cloudflare-pages": "^0.2.4",
     "vite": "^5.0.12",

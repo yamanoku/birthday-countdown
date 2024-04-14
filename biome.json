@@ -1,0 +1,29 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.6.4/schema.json",
+  "vcs": {
+    "defaultBranch": "main"
+  },
+  "organizeImports": {
+    "enabled": true
+  },
+  "files": {
+    "include": ["**/*.ts", "**/*.tsx"],
+    "ignore": ["node_modules", "dist", "*.d.ts"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space"
+  },
+  "javascript": {
+    "formatter": {
+      "indentStyle": "space",
+      "trailingComma": "none"
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  }
+}

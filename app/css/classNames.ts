@@ -61,5 +61,5 @@ export {
   numberValueClass,
   numberKeyClass,
   birthEndClass,
-  birthBtnClass,
+  birthBtnClass
 };
