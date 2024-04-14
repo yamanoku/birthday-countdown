@@ -11,10 +11,10 @@ export default jsxRenderer(({ children, title }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{title}</title>
         <meta name="description" content="countdown @yamanoku birthday limit" />
-        <meta name="image" content="https://yamanoku.net/birthday-countdown-js/ogp-birthday-countdown.png" />
+        <meta name="image" content="https://yamanoku.net/og-images/birthday-countdown.png" />
         <meta itemprop="name" content="yamanoku birthday countdown" />
         <meta itemprop="description" content="countdown @yamanoku birthday limit" />
-        <meta itemprop="image" content="https://yamanoku.net/birthday-countdown-js/ogp-birthday-countdown.png" />
+        <meta itemprop="image" content="https://yamanoku.net/og-images/birthday-countdown.png" />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content="yamanoku birthday countdown" />
         <meta name="twitter:description" content="countdown @yamanoku birthday limit" />
@@ -22,7 +22,7 @@ export default jsxRenderer(({ children, title }) => {
         <meta name="og:description" content="countdown @yamanoku birthday limit" />
         <meta name="og:url" content="https://yamanoku.net/birthday-countdown-js/" />
         <meta name="og:site_name" content="yamanoku.net" />
-        <meta name="og:image" content="https://yamanoku.net/birthday-countdown-js/ogp-birthday-countdown.png" />
+        <meta name="og:image" content="https://yamanoku.net/og-images/birthday-countdown.png" />
         <meta name="og:locale" content="ja_JP" />
         <meta name="og:type" content="website" />
         <Script src="/app/client.ts" />
