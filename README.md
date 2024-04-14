@@ -7,7 +7,7 @@
 
 ``` bash
 # install dependencies
-npm install
+npm ci
 
 # serve
 npm run dev
@@ -15,6 +15,6 @@ npm run dev
 # build
 npm run build
 
-# lint for production
-npm run test
+# deploy
+npm run deploy
 ```
