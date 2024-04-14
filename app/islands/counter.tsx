@@ -42,7 +42,11 @@ export default function Counter(props: InitialTime) {
 
   return (
     <>
-      <div><img src='https://yamanoku.net/birthday-countdown-js/assets/icon.png' width={250} height={250} alt="" /></div>
+      <div style="margin-top: 60px">
+        <svg width="180" height="180" viewBox="0 0 246 242" role="img" aria-label="yamanoku">
+          <path style="transform: translate(-64px, -67px); fill: #fff" fill-rule="evenodd" d="M64,67v54l82,82-46,46v60h56L310,155V96H230l-21,20L160,67H64ZM176,203l-45,46h25L293,113H230l-39,39-31-31H94Z"></path>
+        </svg>
+      </div>
       {isBirthday ? (
         <>
           <p class={birthEndClass}>
