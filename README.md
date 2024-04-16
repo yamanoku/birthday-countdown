@@ -1,13 +1,13 @@
-# birthday-countdown-js
+# yamanoku birthday countdown
 
-<img src="https://i.gyazo.com/1108059c9f73140f98e6291ef8e002b9.gif" alt="" width="500"/>
-<img width="500" alt="Screen Shot 2022-10-30 at 18 09 34" src="https://user-images.githubusercontent.com/1996642/198870978-9b58327c-56fc-4701-a6dd-5ea0c7d8ff4c.png">
+<img src="https://i.gyazo.com/9f2e05656c9370cf4c024eeea9882632.gif" width="500" alt="誕生日までのカウントダウンしている最中のスクリーンショット">
+<img src="https://i.gyazo.com/b1ad35bc04d88202bb32affdd3cb3051.png" width="500" alt="誕生日になったことを知らせる画面のスクリーンショット">
 
 ## Setup
 
 ``` bash
 # install dependencies
-npm install
+npm ci
 
 # serve
 npm run dev
@@ -15,6 +15,6 @@ npm run dev
 # build
 npm run build
 
-# lint for production
-npm run test
+# deploy
+npm run deploy
 ```

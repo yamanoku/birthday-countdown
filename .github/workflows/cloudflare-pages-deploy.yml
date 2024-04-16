@@ -1,0 +1,53 @@
+name: Cloudflare Pages
+
+on: [push]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    strategy:
+        matrix:
+          node-version: [20.x]
+
+    permissions:
+      statuses: write
+      contents: read
+      deployments: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Publish to Cloudflare Pages
+        id: cloudflare_pages_deploy
+        uses: cloudflare/pages-action@1
+        with:
+            apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+            accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+            projectName: yamanoku-birthday
+            directory: ./dist
+            gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add publish URL as commit status
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const sha = context.payload.pull_request?.head.sha ?? context.sha;
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              context: 'Cloudflare Pages',
+              description: 'Cloudflare Pages deployment',
+              state: 'success',
+              sha,
+              target_url: "${{ steps.cloudflare_pages_deploy.outputs.url }}",
+            });

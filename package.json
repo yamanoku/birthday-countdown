@@ -1,31 +1,30 @@
 {
-  "name": "birthday-countdown-js",
-  "version": "6.1.0",
-  "description": "birthday countdown javascript",
+  "name": "yamanoku-birthday-countdown",
+  "version": "7.0.0",
+  "description": "yamanoku birthday countdown app",
   "main": "none",
+  "type": "module",
   "scripts": {
-    "test": "eslint",
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "format": "prettier --write \"src/*.{js,ts}\"",
-    "prepare": "git config --local core.hooksPath .githooks"
+    "build": "vite build --mode client && vite build",
+    "preview": "npx wrangler pages dev ./dist",
+    "deploy": "$npm_execpath run build && npx wrangler pages deploy ./dist",
+    "biome": "biome check --apply .",
+    "biome:ci": "biome ci ."
+  },
+  "dependencies": {
+    "hono": "^4.2.3",
+    "honox": "^0.1.9"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.6.4",
+    "@cloudflare/workers-types": "4.20240405.0",
+    "@hono/vite-cloudflare-pages": "^0.2.4",
+    "vite": "^5.0.12",
+    "wrangler": "^3.47.0"
   },
   "author": "yamanoku",
   "license": "MIT",
-  "devDependencies": {
-    "eslint": "9.0.0",
-    "lint-staged": "15.2.2",
-    "prettier": "3.2.5",
-    "typescript": "5.4.4",
-    "typescript-eslint": "7.5.0",
-    "vite": "5.2.8"
-  },
-  "lint-staged": {
-    "src/*.{js,ts}": [
-      "test"
-    ]
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yamanoku/birthday-countdown-js.git"
@@ -33,8 +32,9 @@
   "keywords": [
     "birthday",
     "countdown",
-    "ES2017",
-    "typescript"
+    "typescript",
+    "Hono",
+    "HonoX"
   ],
   "bugs": {
     "url": "https://github.com/yamanoku/birthday-countdown-js/issues"
