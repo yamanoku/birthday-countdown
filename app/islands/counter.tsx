@@ -32,8 +32,8 @@ export default function Counter(props: InitialTime) {
       );
       const days = Math.floor(diffInSeconds / (60 * 60 * 24));
       // hoursを日本時間の24時間計算になるようにする
-      const hours = Math.floor((diffInSeconds / (60 * 60)) % 24) - 9;
-      hours < 0 ? hours + 24 : hours;
+      let hours = Math.floor((diffInSeconds / (60 * 60)) % 24) - 9;
+      hours < 0 ? (hours = hours + 24) : hours;
       const minutes = Math.floor((diffInSeconds / 60) % 60);
       const seconds = diffInSeconds % 60;
 
