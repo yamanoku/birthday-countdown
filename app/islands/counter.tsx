@@ -67,36 +67,36 @@ export default function Counter(props: InitialTime) {
           />
         </svg>
       </div>
-      {isBirthday ? (
-        <>
-          <p class={birthEndClass}>
-            今日はやまのくの誕生日です
-            <br />
-            今年で{getAge}歳になりました！
-          </p>
-          <a
-            class={birthBtnClass}
-            href="http://amzn.asia/cti4d0v"
-            target="_blank"
-            rel="noreferrer"
-          >
-            欲しいものを送ってやる
-          </a>
-          <a
-            class={birthBtnClass}
-            href="http://amzn.asia/8Kh4dGA"
-            target="_blank"
-            rel="noreferrer"
-          >
-            酒を送ってやる
-          </a>
-        </>
-      ) : (
-        <>
-          <noscript>
-            JavaScriptを許可するとカウントダウンタイマーが動きます
-          </noscript>
-          <div style="margin-top: 20px">
+      <div style="margin-top: 20px">
+        {isBirthday ? (
+          <>
+            <p class={birthEndClass}>
+              今日はやまのくの誕生日です
+              <br />
+              今年で{getAge}歳になりました！
+            </p>
+            <a
+              class={birthBtnClass}
+              href="http://amzn.asia/cti4d0v"
+              target="_blank"
+              rel="noreferrer"
+            >
+              欲しいものを送ってやる
+            </a>
+            <a
+              class={birthBtnClass}
+              href="http://amzn.asia/8Kh4dGA"
+              target="_blank"
+              rel="noreferrer"
+            >
+              酒を送ってやる
+            </a>
+          </>
+        ) : (
+          <>
+            <noscript>
+              JavaScriptを許可するとカウントダウンタイマーが動きます
+            </noscript>
             <div>やまのくの誕生日まで</div>
             <div class={numberClass}>
               <p>
@@ -122,9 +122,9 @@ export default function Counter(props: InitialTime) {
                 <span class={numberValueClass}>sec</span>
               </p>
             </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
+      </div>
     </>
   );
 }

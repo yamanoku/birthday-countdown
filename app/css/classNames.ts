@@ -38,6 +38,7 @@ const numberKeyClass = css`
 
 const birthEndClass = css`
   font-size: 5rem;
+  line-height: 1.4;
 `;
 
 const birthBtnClass = css`
