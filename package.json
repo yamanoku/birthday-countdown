@@ -9,7 +9,7 @@
     "build": "vite build --mode client && vite build",
     "preview": "npx wrangler pages dev ./dist",
     "deploy": "$npm_execpath run build && npx wrangler pages deploy ./dist",
-    "biome": "biome check --apply .",
+    "biome": "biome check --write .",
     "biome:ci": "biome ci ."
   },
   "dependencies": {
