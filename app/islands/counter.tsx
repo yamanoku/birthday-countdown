@@ -47,7 +47,10 @@ export default function Counter(props: InitialTime) {
     };
   }, []);
 
-  const isBirthday = new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }).slice(5, 10) === "10-30";
+  const isBirthday =
+    new Date()
+      .toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })
+      .slice(5, 10) === "10-30";
   const getAge = new Date().getFullYear() - 1989;
 
   return (
