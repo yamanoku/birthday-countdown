@@ -21,7 +21,7 @@
     "@cloudflare/workers-types": "4.20250313.0",
     "@hono/vite-cloudflare-pages": "^0.4.0",
     "vite": "^6.0.0",
-    "wrangler": "^3.47.0"
+    "wrangler": "^4.0.0"
   },
   "author": "yamanoku",
   "license": "MIT",
