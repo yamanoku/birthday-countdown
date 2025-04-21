@@ -8,7 +8,8 @@
       "ESNext"
     ],
     "types": [
-        "@cloudflare/workers-types/2023-07-01"
+        "@cloudflare/workers-types/2023-07-01",
+        "vitest/importMeta",
     ],
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx"

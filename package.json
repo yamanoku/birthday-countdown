@@ -10,7 +10,9 @@
     "preview": "npx wrangler pages dev ./dist",
     "deploy": "$npm_execpath run build && npx wrangler pages deploy ./dist",
     "biome": "biome check --write .",
-    "biome:ci": "biome ci ."
+    "biome:ci": "biome ci .",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "hono": "^4.2.3",
@@ -21,6 +23,7 @@
     "@cloudflare/workers-types": "4.20250418.0",
     "@hono/vite-cloudflare-pages": "^0.4.0",
     "vite": "^6.0.0",
+    "vitest": "^3.1.2",
     "wrangler": "^4.0.0"
   },
   "author": "yamanoku",
