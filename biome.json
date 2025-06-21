@@ -1,14 +1,17 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
   "vcs": {
     "defaultBranch": "main"
   },
-  "organizeImports": {
-    "enabled": true
-  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "files": {
-    "include": ["**/*.ts", "**/*.tsx"],
-    "ignore": ["node_modules", "dist", "*.d.ts"]
+    "includes": [
+      "**/*.ts",
+      "**/*.tsx",
+      "!**/node_modules",
+      "!**/dist",
+      "!**/*.d.ts"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -26,6 +29,18 @@
       "recommended": true,
       "suspicious": {
         "noAssignInExpressions": "off"
+      },
+      "style": {
+        "noParameterAssign": "error",
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "noUnusedTemplateLiteral": "error",
+        "useNumberNamespace": "error",
+        "noInferrableTypes": "error",
+        "noUselessElse": "error"
       }
     }
   }
