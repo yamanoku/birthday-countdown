@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "birthday",
+  "main": "./dist/index.js",
+  "compatibility_date": "2025-10-04",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "assets": {
+    "directory": "./dist"
+  },
+  "preview_urls": true
+}

@@ -1,0 +1,58 @@
+name: Cloudflare Workers
+
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    strategy:
+        matrix:
+          node-version: [23.x]
+
+    permissions:
+      contents: read
+      deployments: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Build
+        run: |
+          npm ci
+          npm run build
+      - name: Deploy to Cloudflare Workers
+        id: deploy-workers
+        uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: versions upload --message "Deployed pages by GitHub Actions branch ${{ github.ref_name }}"
+      - name: Extract Preview URL
+        id: extract-url
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          # 最新のバージョンIDを取得
+          full_version_id=$(npx wrangler versions list --json | jq -r 'sort_by(.number) | reverse | .[0].id')
+          # ハイフンの前の部分だけを取得
+          version_id=$(echo "$full_version_id" | cut -d'-' -f1)
+          # Preview URLを構築
+          preview_url="https://${version_id}-birthday.yamanoku.workers.dev"
+          echo "preview_url=$preview_url" >> $GITHUB_OUTPUT
+          echo "Preview URL: $preview_url"
+      - name: Create comment file
+        id: create-comment-file
+        run: |
+          cat  << EOF > comment.md
+          ## 🚀 Deployed to: ${{ steps.extract-url.outputs.preview_url }}
+          EOF
+      - name: Create PR comment
+        run: 'gh pr comment ${{ github.event.number }} --body-file comment.md'
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
