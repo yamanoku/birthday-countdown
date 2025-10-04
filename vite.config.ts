@@ -1,16 +1,18 @@
 import pages from "@hono/vite-cloudflare-pages";
 import adapter from "@hono/vite-dev-server/cloudflare";
+import tailwindcss from "@tailwindcss/vite";
 import honox from "honox/vite";
-import client from "honox/vite/client";
 import { defineConfig } from "vite";
 
 export default defineConfig(({ mode }) => {
-  if (mode === "client") {
-    return {
-      plugins: [client()]
-    };
-  }
   return {
-    plugins: [honox({ devServer: { adapter } }), pages()]
+    plugins: [
+      honox({
+        devServer: { adapter },
+        client: { input: ["/app/client.ts", "/app/style.css"] }
+      }),
+      pages(),
+      tailwindcss()
+    ]
   };
 });

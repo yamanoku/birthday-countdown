@@ -7,8 +7,6 @@ export default function Index() {
   const { days, hours, minutes, seconds } = getTimeUntilBirthday();
 
   return (
-    <>
-      <Counter days={days} hours={hours} minutes={minutes} seconds={seconds} />
-    </>
+    <Counter days={days} hours={hours} minutes={minutes} seconds={seconds} />
   );
 }

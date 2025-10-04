@@ -1,11 +1,9 @@
-import { Style } from "hono/css";
 import { jsxRenderer } from "hono/jsx-renderer";
-import { Script } from "honox/server";
-import { bodyClass, htmlClass } from "../css/classNames";
+import { Link, Script } from "honox/server";
 
 export default jsxRenderer(({ children, title }) => {
   return (
-    <html class={htmlClass} lang="ja">
+    <html lang="ja">
       <head>
         <meta charset="utf-8" />
         <title>{title}</title>
@@ -41,8 +39,8 @@ export default jsxRenderer(({ children, title }) => {
           name="twitter:image"
           content="https://yamanoku.net/og-images/birthday-countdown.png"
         />
-        <Script src="/app/client.ts" />
-        <Style />
+        <Script src="/app/client.ts" async />
+        <Link href="/app/style.css" rel="stylesheet" />
         <link
           rel="icon"
           type="image/x-icon"
@@ -53,7 +51,7 @@ export default jsxRenderer(({ children, title }) => {
           href="https://cdn.jsdelivr.net/npm/reset-css@2.2.1/reset.css"
         />
       </head>
-      <body class={bodyClass}>{children}</body>
+      <body class="text-white text-center px-10 bg-navy-blue">{children}</body>
     </html>
   );
 });

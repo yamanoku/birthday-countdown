@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@theme {
+  --text-display: 42px;
+  --text-count-number: 150px;
+  --text-count-value: 30px;
+  --text-button-label: 28px;
+
+  --color-navy-blue: #36465d;
+  --color-blue-light: #529ecc;
+  --color-blue-violet: #303e50;
+  --color-white: #ffffff;
+  --color-gray: #b9bfc9;
+
+  --radius-button: 3px;
+
+  --inset-shadow-button: inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
+
+  --spacing: 1px;
+
+  --tracking-number: -0.05em;
+}
+
+:root {
+  font-family: "Yu Gothic", YuGothic, Meirio, "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+}
