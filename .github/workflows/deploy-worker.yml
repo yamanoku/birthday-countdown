@@ -1,6 +1,9 @@
 name: Cloudflare Workers
 
-on: [push]
+on:
+  pull_request:
+    branches:
+      - main
 
 jobs:
   deploy:
