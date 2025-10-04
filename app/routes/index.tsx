@@ -1,5 +1,5 @@
-import Counter from "../islands/counter";
 import { getTimeUntilBirthday } from "../utils";
+import Counter from "./$counter";
 
 export const title = "yamanoku birthday countdown";
 
