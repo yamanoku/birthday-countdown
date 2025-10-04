@@ -1,11 +1,4 @@
 import { useEffect, useState } from "hono/jsx";
-import {
-  birthBtnClass,
-  birthEndClass,
-  numberClass,
-  numberKeyClass,
-  numberValueClass
-} from "../css/classNames";
 import { getTimeUntilBirthday } from "../utils";
 
 type InitialTime = {
@@ -39,7 +32,7 @@ export default function Counter(props: InitialTime) {
 
   return (
     <>
-      <div style="margin-top: 60px">
+      <div class="mt-60">
         <svg
           width="180"
           height="180"
@@ -54,16 +47,16 @@ export default function Counter(props: InitialTime) {
           />
         </svg>
       </div>
-      <div style="margin-top: 20px">
+      <div class="mt-20">
         {isBirthday ? (
           <>
-            <p class={birthEndClass}>
+            <p class="text-display leading-[1.4]">
               今日はやまのくの誕生日です
               <br />
               今年で{getAge}歳になりました！
             </p>
             <a
-              class={birthBtnClass}
+              class="border border-blue-violet bg-blue-light rounded-button inset-shadow-button text-white block text-button-label mt-32 mx-auto max-w-360 py-15 no-underline"
               href="http://amzn.asia/cti4d0v"
               target="_blank"
               rel="noreferrer"
@@ -71,7 +64,7 @@ export default function Counter(props: InitialTime) {
               欲しいものを送ってやる
             </a>
             <a
-              class={birthBtnClass}
+              class="border border-blue-violet bg-blue-light rounded-button inset-shadow-button text-white block text-button-label mt-32 mx-auto max-w-360 py-15 no-underline"
               href="http://amzn.asia/8Kh4dGA"
               target="_blank"
               rel="noreferrer"
@@ -84,29 +77,31 @@ export default function Counter(props: InitialTime) {
             <noscript>
               JavaScriptを許可するとカウントダウンタイマーが動きます
             </noscript>
-            <div>やまのくの誕生日まで</div>
-            <div class={numberClass}>
+            <div class="text-display">やまのくの誕生日まで</div>
+            <div class="flex items-center justify-center mt-25">
               <p>
-                <span class={numberKeyClass}>{time.days}</span>
-                <span class={numberValueClass}>day</span>
+                <span class="block text-count-number mx-10 tracking-number">
+                  {time.days}
+                </span>
+                <span class="block text-count-value text-gray">day</span>
               </p>
               <p>
-                <span class={numberKeyClass}>
+                <span class="block text-count-number mx-10 tracking-number">
                   {String(time.hours).padStart(2, "0")}
                 </span>
-                <span class={numberValueClass}>hour</span>
+                <span class="block text-count-value text-gray">hour</span>
               </p>
               <p>
-                <span class={numberKeyClass}>
+                <span class="block text-count-number mx-10 tracking-number">
                   {String(time.minutes).padStart(2, "0")}
                 </span>
-                <span class={numberValueClass}>min</span>
+                <span class="block text-count-value text-gray">min</span>
               </p>
               <p>
-                <span class={numberKeyClass}>
+                <span class="block text-count-number mx-10 tracking-number">
                   {String(time.seconds).padStart(2, "0")}
                 </span>
-                <span class={numberValueClass}>sec</span>
+                <span class="block text-count-value text-gray">sec</span>
               </p>
             </div>
           </>
