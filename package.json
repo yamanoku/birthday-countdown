@@ -27,7 +27,7 @@
     "tailwindcss": "4.1.18",
     "vite": "^7.0.0",
     "vitest": "^4.0.0",
-    "wrangler": "4.59.1"
+    "wrangler": "4.59.2"
   },
   "author": "yamanoku",
   "license": "MIT",
