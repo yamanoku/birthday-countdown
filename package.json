@@ -24,10 +24,11 @@
     "@hono/vite-build": "1.10.0",
     "@hono/vite-dev-server": "0.25.0",
     "@tailwindcss/vite": "4.2.1",
+    "miniflare": "4.20260301.1",
     "tailwindcss": "4.2.1",
     "vite": "^7.0.0",
     "vitest": "^4.0.0",
-    "wrangler": "4.69.0"
+    "wrangler": "4.71.0"
   },
   "author": "yamanoku",
   "license": "MIT",
