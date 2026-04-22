@@ -23,9 +23,9 @@
     "@cloudflare/workers-types": "4.20260421.1",
     "@hono/vite-build": "1.11.1",
     "@hono/vite-dev-server": "0.25.3",
-    "@tailwindcss/vite": "4.2.3",
+    "@tailwindcss/vite": "4.2.4",
     "miniflare": "4.20260420.0",
-    "tailwindcss": "4.2.3",
+    "tailwindcss": "4.2.4",
     "vite": "^8.0.0",
     "vitest": "^4.0.0",
     "wrangler": "4.84.1"
