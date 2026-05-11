@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.15",
-    "@cloudflare/workers-types": "4.20260508.1",
+    "@cloudflare/workers-types": "4.20260511.1",
     "@hono/vite-build": "1.11.1",
     "@hono/vite-dev-server": "0.25.3",
     "@tailwindcss/vite": "4.2.4",
