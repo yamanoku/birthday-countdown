@@ -24,7 +24,7 @@
     "@hono/vite-build": "1.11.1",
     "@hono/vite-dev-server": "0.25.3",
     "@tailwindcss/vite": "4.3.0",
-    "miniflare": "4.20260515.0",
+    "miniflare": "4.20260518.0",
     "tailwindcss": "4.3.0",
     "vite": "^8.0.0",
     "vitest": "^4.0.0",
