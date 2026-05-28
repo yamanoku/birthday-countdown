@@ -19,7 +19,7 @@
     "honox": "^0.1.9"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.15",
+    "@biomejs/biome": "2.4.16",
     "@cloudflare/workers-types": "4.20260527.1",
     "@hono/vite-build": "1.11.1",
     "@hono/vite-dev-server": "0.26.0",
