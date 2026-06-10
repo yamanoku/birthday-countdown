@@ -1,3 +1,5 @@
+import { Temporal } from "temporal-polyfill-lite";
+
 type TimeUntilBirthday = {
   days: number;
   hours: number;
@@ -5,26 +7,26 @@ type TimeUntilBirthday = {
   seconds: number;
 };
 
+export const TIME_ZONE = "Asia/Tokyo";
+
+const BIRTHDAY = { month: 10, day: 30 };
+
 /**
- * 次の誕生日までの秒数とその内訳を計算する関数
+ * 次の誕生日(日本時間10月30日 0時)までの残り時間を計算する関数
  * @returns 日、時間、分、秒のオブジェクト
  */
 export const getTimeUntilBirthday = (): TimeUntilBirthday => {
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  let nextBirthday = new Date(`${currentYear}-10-30`);
+  const now = Temporal.Now.zonedDateTimeISO(TIME_ZONE);
+  let nextBirthday = now.with(BIRTHDAY).startOfDay();
 
-  if (now > nextBirthday) {
-    nextBirthday = new Date(`${currentYear + 1}-10-30`);
+  if (Temporal.ZonedDateTime.compare(now, nextBirthday) > 0) {
+    nextBirthday = nextBirthday.add({ years: 1 });
   }
 
-  const diffInSeconds = Math.floor((Number(nextBirthday) - Number(now)) / 1000);
-  const days = Math.floor(diffInSeconds / (60 * 60 * 24));
-  // hoursを日本時間の24時間計算になるようにする
-  let hours = Math.floor((diffInSeconds / (60 * 60)) % 24) - 9;
-  hours < 0 ? (hours = hours + 24) : hours;
-  const minutes = Math.floor((diffInSeconds / 60) % 60);
-  const seconds = diffInSeconds % 60;
+  const { days, hours, minutes, seconds } = now.until(nextBirthday, {
+    largestUnit: "day",
+    smallestUnit: "second"
+  });
 
   return { days, hours, minutes, seconds };
 };
@@ -42,8 +44,8 @@ if (import.meta.vitest) {
     });
 
     it("誕生日前の場合、正しい残り時間を計算する", () => {
-      // 2024年4月1日 12:00:00 に設定 (誕生日10月30日の前)
-      const mockDate = new Date(2024, 3, 1, 12, 0, 0);
+      // 日本時間 2024年4月1日 12:00:00 に設定 (誕生日10月30日の前)
+      const mockDate = new Date("2024-04-01T12:00:00+09:00");
 
       vi.setSystemTime(mockDate);
 
@@ -57,8 +59,8 @@ if (import.meta.vitest) {
     });
 
     it("誕生日当日の場合、正しい残り時間を計算する", () => {
-      // 2024年10月30日 00:00:00 に設定 (誕生日当日の朝)
-      const mockDate = new Date(2024, 9, 30, 0, 0, 0);
+      // 日本時間 2024年10月30日 00:00:00 に設定 (誕生日当日の朝)
+      const mockDate = new Date("2024-10-30T00:00:00+09:00");
       vi.setSystemTime(mockDate);
 
       const result = getTimeUntilBirthday();
@@ -71,8 +73,8 @@ if (import.meta.vitest) {
     });
 
     it("誕生日後の場合、翌年の誕生日までの時間を計算する", () => {
-      // 2024年10月31日 12:00:00 に設定 (誕生日10月30日の後)
-      const mockDate = new Date(2024, 9, 31, 12, 0, 0);
+      // 日本時間 2024年10月31日 12:00:00 に設定 (誕生日10月30日の後)
+      const mockDate = new Date("2024-10-31T12:00:00+09:00");
       vi.setSystemTime(mockDate);
 
       const result = getTimeUntilBirthday();

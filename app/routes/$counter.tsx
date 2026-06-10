@@ -1,5 +1,6 @@
 import { useEffect, useState } from "hono/jsx";
-import { getTimeUntilBirthday } from "../utils";
+import { Temporal } from "temporal-polyfill-lite";
+import { getTimeUntilBirthday, TIME_ZONE } from "../utils";
 
 type InitialTime = {
   days: number;
@@ -24,11 +25,9 @@ export default function Counter(props: InitialTime) {
     };
   }, []);
 
-  const isBirthday =
-    new Date()
-      .toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })
-      .slice(5, 10) === "10/30";
-  const getAge = new Date().getFullYear() - 1989;
+  const today = Temporal.Now.plainDateISO(TIME_ZONE);
+  const isBirthday = today.month === 10 && today.day === 30;
+  const getAge = today.year - 1989;
 
   return (
     <>

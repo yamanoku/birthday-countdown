@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "hono": "^4.2.3",
-    "honox": "^0.1.9"
+    "honox": "^0.1.9",
+    "temporal-polyfill-lite": "0.4.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.16",
