@@ -1,23 +1,20 @@
 import { useEffect, useState } from "hono/jsx";
-import { Temporal } from "temporal-polyfill-lite";
-import { getTimeUntilBirthday, TIME_ZONE } from "../utils";
+import { type BirthdayStatus, getBirthdayStatus } from "../utils";
 
-type InitialTime = {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-};
+const GIFT_LINKS = [
+  { href: "https://amzn.asia/cti4d0v", label: "欲しいものを送ってやる" },
+  { href: "https://amzn.asia/8Kh4dGA", label: "酒を送ってやる" }
+] as const;
 
-export default function Counter(props: InitialTime) {
-  const [time, setTime] = useState(props);
+export default function Counter(props: BirthdayStatus) {
+  const [status, setStatus] = useState(props);
 
   useEffect(() => {
     const updateCountdown = () => {
-      const { days, hours, minutes, seconds } = getTimeUntilBirthday();
-      setTime({ days, hours, minutes, seconds });
+      setStatus(getBirthdayStatus());
     };
 
+    updateCountdown();
     const intervalId = setInterval(updateCountdown, 1000);
 
     return () => {
@@ -25,9 +22,13 @@ export default function Counter(props: InitialTime) {
     };
   }, []);
 
-  const today = Temporal.Now.plainDateISO(TIME_ZONE);
-  const isBirthday = today.month === 10 && today.day === 30;
-  const getAge = today.year - 1989;
+  const { isBirthday, age } = status;
+  const counts = [
+    { unit: "day", value: String(status.days) },
+    { unit: "hour", value: String(status.hours).padStart(2, "0") },
+    { unit: "min", value: String(status.minutes).padStart(2, "0") },
+    { unit: "sec", value: String(status.seconds).padStart(2, "0") }
+  ];
 
   return (
     <>
@@ -52,24 +53,19 @@ export default function Counter(props: InitialTime) {
             <p class="text-display leading-[1.4]">
               今日はやまのくの誕生日です
               <br />
-              今年で{getAge}歳になりました！
+              今年で{age}歳になりました！
             </p>
-            <a
-              class="border border-blue-violet bg-blue-light rounded-button inset-shadow-button text-white block text-button-label mt-32 mx-auto max-w-360 py-15 no-underline"
-              href="http://amzn.asia/cti4d0v"
-              target="_blank"
-              rel="noreferrer"
-            >
-              欲しいものを送ってやる
-            </a>
-            <a
-              class="border border-blue-violet bg-blue-light rounded-button inset-shadow-button text-white block text-button-label mt-32 mx-auto max-w-360 py-15 no-underline"
-              href="http://amzn.asia/8Kh4dGA"
-              target="_blank"
-              rel="noreferrer"
-            >
-              酒を送ってやる
-            </a>
+            {GIFT_LINKS.map(({ href, label }) => (
+              <a
+                key={href}
+                class="border border-blue-violet bg-blue-light rounded-button inset-shadow-button text-white block text-button-label mt-32 mx-auto max-w-360 py-15 no-underline"
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {label}
+              </a>
+            ))}
           </>
         ) : (
           <>
@@ -78,30 +74,14 @@ export default function Counter(props: InitialTime) {
             </noscript>
             <div class="text-display">やまのくの誕生日まで</div>
             <div class="flex items-center justify-center mt-25">
-              <p>
-                <span class="block text-count-number mx-10 tracking-number">
-                  {time.days}
-                </span>
-                <span class="block text-count-value text-gray">day</span>
-              </p>
-              <p>
-                <span class="block text-count-number mx-10 tracking-number">
-                  {String(time.hours).padStart(2, "0")}
-                </span>
-                <span class="block text-count-value text-gray">hour</span>
-              </p>
-              <p>
-                <span class="block text-count-number mx-10 tracking-number">
-                  {String(time.minutes).padStart(2, "0")}
-                </span>
-                <span class="block text-count-value text-gray">min</span>
-              </p>
-              <p>
-                <span class="block text-count-number mx-10 tracking-number">
-                  {String(time.seconds).padStart(2, "0")}
-                </span>
-                <span class="block text-count-value text-gray">sec</span>
-              </p>
+              {counts.map(({ unit, value }) => (
+                <p key={unit}>
+                  <span class="block text-count-number mx-10 tracking-number">
+                    {value}
+                  </span>
+                  <span class="block text-count-value text-gray">{unit}</span>
+                </p>
+              ))}
             </div>
           </>
         )}

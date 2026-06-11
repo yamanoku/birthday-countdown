@@ -1,45 +1,33 @@
 import { jsxRenderer } from "hono/jsx-renderer";
 import { Link, Script } from "honox/server";
 
-export default jsxRenderer(({ children, title }) => {
+const SITE_TITLE = "yamanoku birthday countdown";
+const SITE_DESCRIPTION = "countdown @yamanoku birthday limit";
+const SITE_URL = "https://yamanoku-birthday.pages.dev/";
+const SITE_DOMAIN = "yamanoku-birthday.pages.dev";
+const OG_IMAGE = "https://yamanoku.net/og-images/birthday-countdown.png";
+
+export default jsxRenderer(({ children, title = SITE_TITLE }) => {
   return (
     <html lang="ja">
       <head>
         <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{title}</title>
-        <meta name="description" content="countdown @yamanoku birthday limit" />
-        <meta
-          property="og:url"
-          content="https://yamanoku-birthday.pages.dev/"
-        />
+        <meta name="description" content={SITE_DESCRIPTION} />
+        <meta property="og:url" content={SITE_URL} />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="yamanoku birthday countdown" />
-        <meta
-          property="og:description"
-          content="countdown @yamanoku birthday limit"
-        />
-        <meta
-          property="og:image"
-          content="https://yamanoku.net/og-images/birthday-countdown.png"
-        />
-        <meta name="og:locale" content="ja_JP" />
-        <meta name="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={SITE_DESCRIPTION} />
+        <meta property="og:image" content={OG_IMAGE} />
+        <meta property="og:locale" content="ja_JP" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta property="twitter:domain" content="yamanoku-birthday.pages.dev" />
-        <meta
-          property="twitter:url"
-          content="https://yamanoku-birthday.pages.dev/"
-        />
-        <meta name="twitter:title" content="yamanoku birthday countdown" />
-        <meta
-          name="twitter:description"
-          content="countdown @yamanoku birthday limit"
-        />
-        <meta
-          name="twitter:image"
-          content="https://yamanoku.net/og-images/birthday-countdown.png"
-        />
-        <Script src="/app/client.ts" async />
+        <meta name="twitter:domain" content={SITE_DOMAIN} />
+        <meta name="twitter:url" content={SITE_URL} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={SITE_DESCRIPTION} />
+        <meta name="twitter:image" content={OG_IMAGE} />
+        <Script src="/app/client.ts" />
         <Link href="/app/style.css" rel="stylesheet" />
         <link
           rel="icon"

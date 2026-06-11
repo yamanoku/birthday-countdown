@@ -6,6 +6,10 @@ import { defineConfig } from "vite";
 
 export default defineConfig(() => {
   return {
+    define: {
+      // 本番ビルドからin-sourceテスト(import.meta.vitestブロック)を除去する
+      "import.meta.vitest": "undefined"
+    },
     plugins: [
       honox({
         devServer: { adapter },
