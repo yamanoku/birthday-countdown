@@ -11,6 +11,7 @@
     "types": [
         "@cloudflare/workers-types/2023-07-01",
         "vitest/importMeta",
+        "vite/client",
     ],
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx"
