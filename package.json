@@ -23,7 +23,7 @@
     "@biomejs/biome": "2.5.3",
     "@cloudflare/workers-types": "4.20260702.1",
     "@hono/vite-build": "1.11.1",
-    "@hono/vite-dev-server": "0.26.0",
+    "@hono/vite-dev-server": "0.26.1",
     "@tailwindcss/vite": "4.3.2",
     "miniflare": "4.20260706.0",
     "tailwindcss": "4.3.2",
