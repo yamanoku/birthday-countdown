@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.8",
-    "@cloudflare/workers-types": "5.20260811.1",
+    "@cloudflare/workers-types": "5.20260812.1",
     "@hono/vite-build": "1.11.1",
     "@hono/vite-dev-server": "0.26.1",
     "@tailwindcss/vite": "4.3.3",
@@ -29,7 +29,7 @@
     "tailwindcss": "4.3.3",
     "vite": "^8.0.0",
     "vitest": "^4.0.0",
-    "wrangler": "4.120.1"
+    "wrangler": "4.122.0"
   },
   "author": "yamanoku",
   "license": "MIT",
