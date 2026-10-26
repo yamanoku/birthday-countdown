@@ -20,7 +20,7 @@
     "temporal-polyfill-lite": "1.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.2",
+    "@biomejs/biome": "2.6.3",
     "@cloudflare/workers-types": "5.20261023.1",
     "@hono/vite-build": "1.11.1",
     "@hono/vite-dev-server": "0.26.1",
