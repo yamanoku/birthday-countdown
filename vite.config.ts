@@ -3,6 +3,7 @@ import adapter from "@hono/vite-dev-server/cloudflare";
 import tailwindcss from "@tailwindcss/vite";
 import honox from "honox/vite";
 import { defineConfig } from "vite";
+import { cloudflareWasmModule } from "./vite/cloudflare-wasm.ts";
 
 export default defineConfig(() => {
   return {
@@ -16,7 +17,8 @@ export default defineConfig(() => {
         client: { input: ["/app/client.ts", "/app/style.css"] }
       }),
       build(),
-      tailwindcss()
+      tailwindcss(),
+      cloudflareWasmModule()
     ]
   };
 });

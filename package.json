@@ -17,6 +17,7 @@
   "dependencies": {
     "hono": "^4.2.3",
     "honox": "^0.1.9",
+    "takumi-js": "2.19.0",
     "temporal-polyfill-lite": "1.0.0"
   },
   "devDependencies": {
