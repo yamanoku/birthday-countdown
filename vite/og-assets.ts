@@ -12,7 +12,7 @@ import { renderOgPng } from "../app/og/render.ts";
 /**
  * OG 画像をビルド時に dist/og へ書き出す。
  * リクエスト時に描くと Workers Free の CPU 10ms を超える。
- * 静的アセットは Worker を起動しない。分単位だとファイル数が無料枠の 2 万を超えるので、時間までにする。
+ * 静的アセットは Worker を起動しない。日付ごとの画像と、前日・誕生日の画像だけを書く。
  */
 export const ogAssets = (): Plugin => {
   let command = "";

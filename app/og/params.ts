@@ -2,34 +2,29 @@ import { type BirthdayStatus, getBirthdayStatus } from "../utils.ts";
 
 export type OgSnapshot =
   | { mode: "birthday"; age: number }
-  | {
-      mode: "countdown";
-      days: number;
-      hours: number;
-    };
+  | { mode: "eve" }
+  | { mode: "countdown"; days: number };
 
 export const OG_MIN_AGE = 0;
 export const OG_MAX_AGE = 120;
 export const OG_MIN_DAYS = 0;
 export const OG_MAX_DAYS = 366;
-export const OG_MIN_HOURS = 0;
-export const OG_MAX_HOURS = 23;
 
 /**
- * ページと同じく誕生日当日を優先する。
+ * ページと同じく誕生日当日を優先し、その前日は「明日」にする。
  * 0時を過ぎると残り時間は翌年分になるが、画面は祝辞のままなので画像も祝辞にする。
- * 画像は時間まで。分はページ側だけで進む。
+ * 画像は日付だけ。時刻はページ側でも出さない。
  */
 export const toOgSnapshot = (status: BirthdayStatus): OgSnapshot => {
   if (status.isBirthday) {
     return { mode: "birthday", age: status.age };
   }
 
-  return {
-    mode: "countdown",
-    days: status.days,
-    hours: status.hours
-  };
+  if (status.isEve) {
+    return { mode: "eve" };
+  }
+
+  return { mode: "countdown", days: status.dateDays };
 };
 
 export const ogAssetFilename = (snapshot: OgSnapshot): string => {
@@ -37,7 +32,11 @@ export const ogAssetFilename = (snapshot: OgSnapshot): string => {
     return `birthday-${snapshot.age}.png`;
   }
 
-  return `countdown-${snapshot.days}-${snapshot.hours}.png`;
+  if (snapshot.mode === "eve") {
+    return "tomorrow.png";
+  }
+
+  return `countdown-${snapshot.days}.png`;
 };
 
 export const buildOgPath = (snapshot: OgSnapshot): string => {
@@ -49,30 +48,33 @@ export const ogImageAlt = (snapshot: OgSnapshot): string => {
     return `今日はやまのくの誕生日です。今年で${snapshot.age}歳になりました`;
   }
 
-  return `やまのくの誕生日まで あと${snapshot.days}日${snapshot.hours}時間`;
+  if (snapshot.mode === "eve") {
+    return "明日は誕生日！";
+  }
+
+  return `やまのくの誕生日まで あと${snapshot.days}日`;
 };
 
 const ages = OG_MAX_AGE - OG_MIN_AGE + 1;
 const daySlots = OG_MAX_DAYS - OG_MIN_DAYS + 1;
-const hourSlots = OG_MAX_HOURS - OG_MIN_HOURS + 1;
 
 /** ビルド時に書き出す枚数。Workers Free の静的アセット上限は 2 万ファイル。 */
-export const ogAssetCount = ages + daySlots * hourSlots;
+export const ogAssetCount = ages + daySlots + 1;
 
 export const eachOgSnapshot = function* (): Generator<OgSnapshot> {
   for (let age = OG_MIN_AGE; age <= OG_MAX_AGE; age++) {
     yield { mode: "birthday", age };
   }
 
+  yield { mode: "eve" };
+
   for (let days = OG_MIN_DAYS; days <= OG_MAX_DAYS; days++) {
-    for (let hours = OG_MIN_HOURS; hours <= OG_MAX_HOURS; hours++) {
-      yield { mode: "countdown", days, hours };
-    }
+    yield { mode: "countdown", days };
   }
 };
 
 const BIRTHDAY_PATH = /^\/og\/birthday-(\d{1,3})\.png$/;
-const COUNTDOWN_PATH = /^\/og\/countdown-(\d{1,3})-(\d{1,2})\.png$/;
+const COUNTDOWN_PATH = /^\/og\/countdown-(\d{1,3})\.png$/;
 
 const parseCanonicalInt = (
   value: string,
@@ -96,6 +98,10 @@ const parseCanonicalInt = (
  * 開発サーバがこの結果で描画し、本番は同名の静的ファイルを返す。
  */
 export const parseOgAssetPath = (pathname: string): OgSnapshot | null => {
+  if (pathname === "/og/tomorrow.png") {
+    return { mode: "eve" };
+  }
+
   const birthday = BIRTHDAY_PATH.exec(pathname);
   if (birthday) {
     const age = parseCanonicalInt(birthday[1], OG_MIN_AGE, OG_MAX_AGE);
@@ -112,12 +118,11 @@ export const parseOgAssetPath = (pathname: string): OgSnapshot | null => {
   }
 
   const days = parseCanonicalInt(countdown[1], OG_MIN_DAYS, OG_MAX_DAYS);
-  const hours = parseCanonicalInt(countdown[2], OG_MIN_HOURS, OG_MAX_HOURS);
-  if (days === null || hours === null) {
+  if (days === null) {
     return null;
   }
 
-  return { mode: "countdown", days, hours };
+  return { mode: "countdown", days };
 };
 
 if (import.meta.vitest) {
@@ -132,14 +137,21 @@ if (import.meta.vitest) {
       vi.useRealTimers();
     });
 
-    it("誕生日前は時間までのカウントダウンにする", () => {
+    it("誕生日前は日付だけのカウントダウンにする", () => {
       vi.setSystemTime(new Date("2024-04-01T12:34:56+09:00"));
 
       expect(toOgSnapshot(getBirthdayStatus())).toEqual({
         mode: "countdown",
-        days: 211,
-        hours: 11
+        days: 212
       });
+    });
+
+    it("前日は時刻が変わっても明日の画像にする", () => {
+      vi.setSystemTime(new Date("2024-10-29T00:00:00+09:00"));
+      expect(toOgSnapshot(getBirthdayStatus())).toEqual({ mode: "eve" });
+
+      vi.setSystemTime(new Date("2024-10-29T21:00:00+09:00"));
+      expect(toOgSnapshot(getBirthdayStatus())).toEqual({ mode: "eve" });
     });
 
     it("誕生日当日の午後は残り時間が翌年でも祝辞にする", () => {
@@ -157,8 +169,9 @@ if (import.meta.vitest) {
       expect(buildOgPath({ mode: "birthday", age: 37 })).toBe(
         "/og/birthday-37.png"
       );
-      expect(buildOgPath({ mode: "countdown", days: 211, hours: 4 })).toBe(
-        "/og/countdown-211-4.png"
+      expect(buildOgPath({ mode: "eve" })).toBe("/og/tomorrow.png");
+      expect(buildOgPath({ mode: "countdown", days: 212 })).toBe(
+        "/og/countdown-212.png"
       );
     });
   });
@@ -169,15 +182,14 @@ if (import.meta.vitest) {
         mode: "birthday",
         age: 37
       });
-      expect(parseOgAssetPath("/og/countdown-211-11.png")).toEqual({
+      expect(parseOgAssetPath("/og/tomorrow.png")).toEqual({ mode: "eve" });
+      expect(parseOgAssetPath("/og/countdown-212.png")).toEqual({
         mode: "countdown",
-        days: 211,
-        hours: 11
+        days: 212
       });
-      expect(parseOgAssetPath("/og/countdown-0-0.png")).toEqual({
+      expect(parseOgAssetPath("/og/countdown-0.png")).toEqual({
         mode: "countdown",
-        days: 0,
-        hours: 0
+        days: 0
       });
     });
 
@@ -199,10 +211,10 @@ if (import.meta.vitest) {
     it("先頭ゼロ、範囲外、別形式は拒否する", () => {
       expect(parseOgAssetPath("/og/birthday-037.png")).toBeNull();
       expect(parseOgAssetPath("/og/birthday-121.png")).toBeNull();
-      expect(parseOgAssetPath("/og/countdown-01-2.png")).toBeNull();
-      expect(parseOgAssetPath("/og/countdown-211-00.png")).toBeNull();
-      expect(parseOgAssetPath("/og/countdown-211-24.png")).toBeNull();
-      expect(parseOgAssetPath("/og/countdown-367-0.png")).toBeNull();
+      expect(parseOgAssetPath("/og/countdown-01.png")).toBeNull();
+      expect(parseOgAssetPath("/og/countdown-211-4.png")).toBeNull();
+      expect(parseOgAssetPath("/og/countdown-367.png")).toBeNull();
+      expect(parseOgAssetPath("/og/tomorrow.png.bak")).toBeNull();
       expect(parseOgAssetPath("/og?mode=birthday&age=37")).toBeNull();
       expect(parseOgAssetPath("/og/countdown-211-4.png.bak")).toBeNull();
     });
@@ -213,15 +225,16 @@ if (import.meta.vitest) {
       expect(ogImageAlt({ mode: "birthday", age: 37 })).toBe(
         "今日はやまのくの誕生日です。今年で37歳になりました"
       );
-      expect(ogImageAlt({ mode: "countdown", days: 211, hours: 12 })).toBe(
-        "やまのくの誕生日まで あと211日12時間"
+      expect(ogImageAlt({ mode: "eve" })).toBe("明日は誕生日！");
+      expect(ogImageAlt({ mode: "countdown", days: 212 })).toBe(
+        "やまのくの誕生日まで あと212日"
       );
     });
   });
 
   describe("ogAssetCount", () => {
     it("無料枠の 2 万ファイルに収まる", () => {
-      expect(ogAssetCount).toBe(8929);
+      expect(ogAssetCount).toBe(489);
       expect(ogAssetCount).toBeLessThan(20000);
     });
   });

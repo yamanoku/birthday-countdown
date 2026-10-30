@@ -2,7 +2,7 @@ import { render } from "takumi-js";
 import { cardHtml } from "./card.ts";
 import type { OgSnapshot } from "./params.ts";
 
-// Noto Sans JP のサブセット。カードの文言、数字、day / hour だけを含む。
+// Noto Sans JP のサブセット。カードの文言と数字だけを含む。
 // 文言を増やすときは Google Fonts の css2 text= で同じ字面を取り直す。
 
 const WIDTH = 1200;
