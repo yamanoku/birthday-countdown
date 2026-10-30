@@ -1,4 +1,4 @@
-import type { OgSnapshot } from "./params";
+import type { OgSnapshot } from "./params.ts";
 
 const NAVY = "#36465d";
 const GRAY = "#b9bfc9";
@@ -27,8 +27,7 @@ export const cardHtml = (snapshot: OgSnapshot): string => {
 
   const counts = [
     { unit: "day", value: String(snapshot.days) },
-    { unit: "hour", value: String(snapshot.hours).padStart(2, "0") },
-    { unit: "min", value: String(snapshot.minutes).padStart(2, "0") }
+    { unit: "hour", value: String(snapshot.hours).padStart(2, "0") }
   ];
 
   const columns = counts
@@ -43,6 +42,6 @@ export const cardHtml = (snapshot: OgSnapshot): string => {
   return frame(`<div style="display:flex;flex-direction:column;width:1200px;height:630px;padding:64px 72px;box-sizing:border-box;">
     <div style="display:flex;align-items:center;">${logo(72)}</div>
     <div style="display:flex;margin-top:28px;font-size:46px;">やまのくの誕生日まで</div>
-    <div style="display:flex;flex-grow:1;align-items:center;justify-content:space-between;margin-top:12px;">${columns}</div>
+    <div style="display:flex;flex-grow:1;align-items:center;justify-content:space-evenly;margin-top:12px;">${columns}</div>
   </div>`);
 };

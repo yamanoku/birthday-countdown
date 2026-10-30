@@ -1,4 +1,4 @@
-import { type BirthdayStatus, getBirthdayStatus } from "../utils";
+import { type BirthdayStatus, getBirthdayStatus } from "../utils.ts";
 
 export type OgSnapshot =
   | { mode: "birthday"; age: number }
@@ -6,15 +6,19 @@ export type OgSnapshot =
       mode: "countdown";
       days: number;
       hours: number;
-      minutes: number;
     };
 
-const BIRTHDAY_KEYS = ["mode", "age"] as const;
-const COUNTDOWN_KEYS = ["mode", "days", "hours", "minutes"] as const;
+export const OG_MIN_AGE = 0;
+export const OG_MAX_AGE = 120;
+export const OG_MIN_DAYS = 0;
+export const OG_MAX_DAYS = 366;
+export const OG_MIN_HOURS = 0;
+export const OG_MAX_HOURS = 23;
 
 /**
  * ページと同じく誕生日当日を優先する。
  * 0時を過ぎると残り時間は翌年分になるが、画面は祝辞のままなので画像も祝辞にする。
+ * 画像は時間まで。分はページ側だけで進む。
  */
 export const toOgSnapshot = (status: BirthdayStatus): OgSnapshot => {
   if (status.isBirthday) {
@@ -24,17 +28,20 @@ export const toOgSnapshot = (status: BirthdayStatus): OgSnapshot => {
   return {
     mode: "countdown",
     days: status.days,
-    hours: status.hours,
-    minutes: status.minutes
+    hours: status.hours
   };
 };
 
-export const buildOgPath = (snapshot: OgSnapshot): string => {
+export const ogAssetFilename = (snapshot: OgSnapshot): string => {
   if (snapshot.mode === "birthday") {
-    return `/og?mode=birthday&age=${snapshot.age}`;
+    return `birthday-${snapshot.age}.png`;
   }
 
-  return `/og?mode=countdown&days=${snapshot.days}&hours=${snapshot.hours}&minutes=${snapshot.minutes}`;
+  return `countdown-${snapshot.days}-${snapshot.hours}.png`;
+};
+
+export const buildOgPath = (snapshot: OgSnapshot): string => {
+  return `/og/${ogAssetFilename(snapshot)}`;
 };
 
 export const ogImageAlt = (snapshot: OgSnapshot): string => {
@@ -42,25 +49,42 @@ export const ogImageAlt = (snapshot: OgSnapshot): string => {
     return `今日はやまのくの誕生日です。今年で${snapshot.age}歳になりました`;
   }
 
-  return `やまのくの誕生日まで あと${snapshot.days}日${snapshot.hours}時間${snapshot.minutes}分`;
+  return `やまのくの誕生日まで あと${snapshot.days}日${snapshot.hours}時間`;
 };
 
-export type ParsedOgRequest = {
-  snapshot: OgSnapshot;
-  canonical: boolean;
+const ages = OG_MAX_AGE - OG_MIN_AGE + 1;
+const daySlots = OG_MAX_DAYS - OG_MIN_DAYS + 1;
+const hourSlots = OG_MAX_HOURS - OG_MIN_HOURS + 1;
+
+/** ビルド時に書き出す枚数。Workers Free の静的アセット上限は 2 万ファイル。 */
+export const ogAssetCount = ages + daySlots * hourSlots;
+
+export const eachOgSnapshot = function* (): Generator<OgSnapshot> {
+  for (let age = OG_MIN_AGE; age <= OG_MAX_AGE; age++) {
+    yield { mode: "birthday", age };
+  }
+
+  for (let days = OG_MIN_DAYS; days <= OG_MAX_DAYS; days++) {
+    for (let hours = OG_MIN_HOURS; hours <= OG_MAX_HOURS; hours++) {
+      yield { mode: "countdown", days, hours };
+    }
+  }
 };
 
-const parseIntInRange = (
-  value: string | null,
+const BIRTHDAY_PATH = /^\/og\/birthday-(\d{1,3})\.png$/;
+const COUNTDOWN_PATH = /^\/og\/countdown-(\d{1,3})-(\d{1,2})\.png$/;
+
+const parseCanonicalInt = (
+  value: string,
   min: number,
   max: number
 ): number | null => {
-  if (value === null || !/^\d{1,3}$/.test(value)) {
+  if (!/^\d{1,3}$/.test(value)) {
     return null;
   }
 
   const parsed = Number(value);
-  if (parsed < min || parsed > max) {
+  if (String(parsed) !== value || parsed < min || parsed > max) {
     return null;
   }
 
@@ -68,76 +92,32 @@ const parseIntInRange = (
 };
 
 /**
- * クエリをスナップショットに読む。
- * 並びが正規形でなければ canonical: false。未知のキー、重複、範囲外は null。
+ * ビルド成果物と同じパスだけを読む。先頭ゼロや範囲外は null。
+ * 開発サーバがこの結果で描画し、本番は同名の静的ファイルを返す。
  */
-export const parseOgRequest = (url: URL): ParsedOgRequest | null => {
-  const entries = [...url.searchParams.entries()];
-  const keys = entries.map(([key]) => key);
-  if (new Set(keys).size !== keys.length) {
-    return null;
-  }
-
-  const mode = url.searchParams.get("mode");
-  const allowed =
-    mode === "birthday"
-      ? BIRTHDAY_KEYS
-      : mode === "countdown"
-        ? COUNTDOWN_KEYS
-        : null;
-  if (!allowed || keys.length !== allowed.length) {
-    return null;
-  }
-
-  for (const key of allowed) {
-    if (!keys.includes(key)) {
+export const parseOgAssetPath = (pathname: string): OgSnapshot | null => {
+  const birthday = BIRTHDAY_PATH.exec(pathname);
+  if (birthday) {
+    const age = parseCanonicalInt(birthday[1], OG_MIN_AGE, OG_MAX_AGE);
+    if (age === null) {
       return null;
     }
+
+    return { mode: "birthday", age };
   }
 
-  const snapshot =
-    mode === "birthday"
-      ? parseBirthday(url.searchParams.get("age"))
-      : parseCountdown(
-          url.searchParams.get("days"),
-          url.searchParams.get("hours"),
-          url.searchParams.get("minutes")
-        );
-  if (!snapshot) {
+  const countdown = COUNTDOWN_PATH.exec(pathname);
+  if (!countdown) {
     return null;
   }
 
-  const canonicalSearch = buildOgPath(snapshot).slice("/og".length);
-  return { snapshot, canonical: url.search === canonicalSearch };
-};
-
-const parseBirthday = (age: string | null): OgSnapshot | null => {
-  const parsed = parseIntInRange(age, 0, 120);
-  if (parsed === null) {
+  const days = parseCanonicalInt(countdown[1], OG_MIN_DAYS, OG_MAX_DAYS);
+  const hours = parseCanonicalInt(countdown[2], OG_MIN_HOURS, OG_MAX_HOURS);
+  if (days === null || hours === null) {
     return null;
   }
 
-  return { mode: "birthday", age: parsed };
-};
-
-const parseCountdown = (
-  days: string | null,
-  hours: string | null,
-  minutes: string | null
-): OgSnapshot | null => {
-  const parsedDays = parseIntInRange(days, 0, 366);
-  const parsedHours = parseIntInRange(hours, 0, 23);
-  const parsedMinutes = parseIntInRange(minutes, 0, 59);
-  if (parsedDays === null || parsedHours === null || parsedMinutes === null) {
-    return null;
-  }
-
-  return {
-    mode: "countdown",
-    days: parsedDays,
-    hours: parsedHours,
-    minutes: parsedMinutes
-  };
+  return { mode: "countdown", days, hours };
 };
 
 if (import.meta.vitest) {
@@ -152,14 +132,13 @@ if (import.meta.vitest) {
       vi.useRealTimers();
     });
 
-    it("誕生日前は分までのカウントダウンにする", () => {
+    it("誕生日前は時間までのカウントダウンにする", () => {
       vi.setSystemTime(new Date("2024-04-01T12:34:56+09:00"));
 
       expect(toOgSnapshot(getBirthdayStatus())).toEqual({
         mode: "countdown",
         days: 211,
-        hours: 11,
-        minutes: 25
+        hours: 11
       });
     });
 
@@ -174,78 +153,58 @@ if (import.meta.vitest) {
   });
 
   describe("buildOgPath", () => {
-    it("正規のクエリ順でパスを組む", () => {
+    it("静的ファイルのパスを組む", () => {
       expect(buildOgPath({ mode: "birthday", age: 37 })).toBe(
-        "/og?mode=birthday&age=37"
+        "/og/birthday-37.png"
       );
-      expect(
-        buildOgPath({ mode: "countdown", days: 211, hours: 12, minutes: 4 })
-      ).toBe("/og?mode=countdown&days=211&hours=12&minutes=4");
+      expect(buildOgPath({ mode: "countdown", days: 211, hours: 4 })).toBe(
+        "/og/countdown-211-4.png"
+      );
     });
   });
 
-  describe("parseOgRequest", () => {
-    it("正規のカウントダウン URL を読む", () => {
-      expect(
-        parseOgRequest(
-          new URL(
-            "https://example.test/og?mode=countdown&days=211&hours=12&minutes=4"
-          )
-        )
-      ).toEqual({
-        snapshot: { mode: "countdown", days: 211, hours: 12, minutes: 4 },
-        canonical: true
+  describe("parseOgAssetPath", () => {
+    it("正規のパスを読む", () => {
+      expect(parseOgAssetPath("/og/birthday-37.png")).toEqual({
+        mode: "birthday",
+        age: 37
+      });
+      expect(parseOgAssetPath("/og/countdown-211-11.png")).toEqual({
+        mode: "countdown",
+        days: 211,
+        hours: 11
+      });
+      expect(parseOgAssetPath("/og/countdown-0-0.png")).toEqual({
+        mode: "countdown",
+        days: 0,
+        hours: 0
       });
     });
 
-    it("並びが違えば値は読み、正規形ではないと返す", () => {
-      expect(
-        parseOgRequest(new URL("https://example.test/og?age=37&mode=birthday"))
-      ).toEqual({
-        snapshot: { mode: "birthday", age: 37 },
-        canonical: false
-      });
+    it("書き出すパスはすべて読み戻せる", () => {
+      let count = 0;
+      let mismatch = 0;
+      for (const snapshot of eachOgSnapshot()) {
+        const parsed = parseOgAssetPath(buildOgPath(snapshot));
+        if (JSON.stringify(parsed) !== JSON.stringify(snapshot)) {
+          mismatch += 1;
+        }
+        count += 1;
+      }
+
+      expect(mismatch).toBe(0);
+      expect(count).toBe(ogAssetCount);
     });
 
-    it("先頭ゼロは値として読み、正規形ではないと返す", () => {
-      expect(
-        parseOgRequest(
-          new URL(
-            "https://example.test/og?mode=countdown&days=01&hours=2&minutes=3"
-          )
-        )
-      ).toEqual({
-        snapshot: { mode: "countdown", days: 1, hours: 2, minutes: 3 },
-        canonical: false
-      });
-    });
-
-    it("範囲外、未知のキー、重複、自由文は拒否する", () => {
-      expect(
-        parseOgRequest(
-          new URL(
-            "https://example.test/og?mode=countdown&days=367&hours=0&minutes=0"
-          )
-        )
-      ).toBeNull();
-      expect(
-        parseOgRequest(
-          new URL("https://example.test/og?mode=birthday&age=37&days=1")
-        )
-      ).toBeNull();
-      expect(
-        parseOgRequest(
-          new URL("https://example.test/og?mode=birthday&mode=countdown&age=37")
-        )
-      ).toBeNull();
-      expect(
-        parseOgRequest(
-          new URL("https://example.test/og?mode=birthday&age=三十七")
-        )
-      ).toBeNull();
-      expect(
-        parseOgRequest(new URL("https://example.test/og?mode=party&age=37"))
-      ).toBeNull();
+    it("先頭ゼロ、範囲外、別形式は拒否する", () => {
+      expect(parseOgAssetPath("/og/birthday-037.png")).toBeNull();
+      expect(parseOgAssetPath("/og/birthday-121.png")).toBeNull();
+      expect(parseOgAssetPath("/og/countdown-01-2.png")).toBeNull();
+      expect(parseOgAssetPath("/og/countdown-211-00.png")).toBeNull();
+      expect(parseOgAssetPath("/og/countdown-211-24.png")).toBeNull();
+      expect(parseOgAssetPath("/og/countdown-367-0.png")).toBeNull();
+      expect(parseOgAssetPath("/og?mode=birthday&age=37")).toBeNull();
+      expect(parseOgAssetPath("/og/countdown-211-4.png.bak")).toBeNull();
     });
   });
 
@@ -254,9 +213,16 @@ if (import.meta.vitest) {
       expect(ogImageAlt({ mode: "birthday", age: 37 })).toBe(
         "今日はやまのくの誕生日です。今年で37歳になりました"
       );
-      expect(
-        ogImageAlt({ mode: "countdown", days: 211, hours: 12, minutes: 4 })
-      ).toBe("やまのくの誕生日まで あと211日12時間4分");
+      expect(ogImageAlt({ mode: "countdown", days: 211, hours: 12 })).toBe(
+        "やまのくの誕生日まで あと211日12時間"
+      );
+    });
+  });
+
+  describe("ogAssetCount", () => {
+    it("無料枠の 2 万ファイルに収まる", () => {
+      expect(ogAssetCount).toBe(8929);
+      expect(ogAssetCount).toBeLessThan(20000);
     });
   });
 }
