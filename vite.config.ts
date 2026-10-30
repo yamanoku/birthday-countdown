@@ -3,6 +3,7 @@ import adapter from "@hono/vite-dev-server/cloudflare";
 import tailwindcss from "@tailwindcss/vite";
 import honox from "honox/vite";
 import { defineConfig } from "vite";
+import { ogAssets } from "./vite/og-assets.ts";
 
 export default defineConfig(() => {
   return {
@@ -11,6 +12,7 @@ export default defineConfig(() => {
       "import.meta.vitest": "undefined"
     },
     plugins: [
+      ogAssets(),
       honox({
         devServer: { adapter },
         client: { input: ["/app/client.ts", "/app/style.css"] }

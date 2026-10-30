@@ -5,7 +5,11 @@ export type BirthdayStatus = {
   hours: number;
   minutes: number;
   seconds: number;
+  /** 日付だけの残り日数。時刻が途中でも、その日のうちは変わらない。 */
+  dateDays: number;
   isBirthday: boolean;
+  /** 日本時間で誕生日の前日。 */
+  isEve: boolean;
   age: number;
 };
 
@@ -32,12 +36,21 @@ export const getBirthdayStatus = (): BirthdayStatus => {
     smallestUnit: "second"
   });
 
+  const isBirthday = now.month === BIRTHDAY.month && now.day === BIRTHDAY.day;
+  const dateDays = isBirthday
+    ? 0
+    : hours === 0 && minutes === 0 && seconds === 0
+      ? days
+      : days + 1;
+
   return {
     days,
     hours,
     minutes,
     seconds,
-    isBirthday: now.month === BIRTHDAY.month && now.day === BIRTHDAY.day,
+    dateDays,
+    isBirthday,
+    isEve: dateDays === 1,
     age: now.year - BIRTH_YEAR
   };
 };
@@ -67,7 +80,9 @@ if (import.meta.vitest) {
       expect(result.hours).toBe(12);
       expect(result.minutes).toBe(0);
       expect(result.seconds).toBe(0);
+      expect(result.dateDays).toBe(212);
       expect(result.isBirthday).toBe(false);
+      expect(result.isEve).toBe(false);
     });
 
     it("日本時間の0時〜9時の間でも、正しい残り時間を計算する", () => {
@@ -96,8 +111,28 @@ if (import.meta.vitest) {
       expect(result.hours).toBe(0);
       expect(result.minutes).toBe(0);
       expect(result.seconds).toBe(0);
+      expect(result.dateDays).toBe(0);
       expect(result.isBirthday).toBe(true);
+      expect(result.isEve).toBe(false);
       expect(result.age).toBe(2024 - 1989);
+    });
+
+    it("誕生日の前日は、時刻にかかわらず前日になる", () => {
+      vi.setSystemTime(new Date("2024-10-29T00:00:00+09:00"));
+      expect(getBirthdayStatus().isEve).toBe(true);
+      expect(getBirthdayStatus().dateDays).toBe(1);
+
+      vi.setSystemTime(new Date("2024-10-29T23:30:00+09:00"));
+      expect(getBirthdayStatus().isEve).toBe(true);
+      expect(getBirthdayStatus().isBirthday).toBe(false);
+    });
+
+    it("前々日はあと2日で、前日ではない", () => {
+      vi.setSystemTime(new Date("2024-10-28T15:00:00+09:00"));
+
+      const result = getBirthdayStatus();
+      expect(result.dateDays).toBe(2);
+      expect(result.isEve).toBe(false);
     });
 
     it("誕生日後の場合、翌年の誕生日までの時間を計算する", () => {
