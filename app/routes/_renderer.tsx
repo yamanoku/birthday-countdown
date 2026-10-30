@@ -6,8 +6,8 @@ import { getBirthdayStatus } from "../utils";
 
 const SITE_TITLE = "yamanoku birthday countdown";
 const SITE_DESCRIPTION = "countdown @yamanoku birthday limit";
-const SITE_URL = "https://yamanoku-birthday.pages.dev/";
-const SITE_DOMAIN = "yamanoku-birthday.pages.dev";
+const SITE_URL = "https://birthday.yamanoku.net/";
+const SITE_DOMAIN = "birthday.yamanoku.net";
 
 export default jsxRenderer(({ children, title = SITE_TITLE }, c: Context) => {
   const snapshot = toOgSnapshot(getBirthdayStatus());
