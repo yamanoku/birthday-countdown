@@ -6,6 +6,11 @@ const GIFT_LINKS = [
   { href: "https://amzn.asia/8Kh4dGA", label: "酒を送ってやる" }
 ] as const;
 
+const TIMELINE_LINK = {
+  href: "https://scrapbox.io/yamanoku-timeline/",
+  label: "これまでの歴史を見る"
+} as const;
+
 export default function Counter(props: BirthdayStatus) {
   const [status, setStatus] = useState(props);
 
@@ -49,7 +54,7 @@ export default function Counter(props: BirthdayStatus) {
               <br />
               今年で{age}歳になりました！
             </p>
-            {GIFT_LINKS.map(({ href, label }) => (
+            {[...GIFT_LINKS].map(({ href, label }) => (
               <a
                 key={href}
                 class="border border-blue-violet bg-blue-light rounded-button inset-shadow-button text-white block text-button-label mt-32 mx-auto max-w-360 py-15 no-underline"
@@ -60,6 +65,17 @@ export default function Counter(props: BirthdayStatus) {
                 {label}
               </a>
             ))}
+            <div class="mt-24">
+              <a
+                key={TIMELINE_LINK.href}
+                class="text-white text-link hover:no-underline"
+                href={TIMELINE_LINK.href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {TIMELINE_LINK.label}
+              </a>
+            </div>
           </>
         ) : isEve ? (
           <p class="text-display leading-[1.4]">明日は誕生日！</p>

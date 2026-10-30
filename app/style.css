@@ -4,6 +4,7 @@
 
 @theme {
   --text-display: 42px;
+  --text-link: 20px;
   --text-button-label: 28px;
 
   --color-navy-blue: #36465d;
