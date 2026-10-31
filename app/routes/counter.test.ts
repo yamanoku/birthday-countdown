@@ -80,6 +80,13 @@ describe("Counter", () => {
     );
 
     expect(html).not.toContain(TIMELINE_HREF);
+    expect(html).toContain("やまのくの誕生日まで");
+    expect(html).toContain(">0<");
+    expect(html).toContain(">08<");
+    expect(html).toContain(">day<");
+    expect(html).toContain(">hour<");
+    expect(html).toContain(">min<");
+    expect(html).toContain(">sec<");
     expect(anchors(html).some((link) => link.href === TIMELINE_HREF)).toBe(
       false
     );
@@ -95,6 +102,13 @@ describe("Counter", () => {
     );
 
     expect(html).not.toContain(TIMELINE_HREF);
+    expect(html).toContain("やまのくの誕生日まで");
+    expect(html).toContain(">10<");
+    expect(html).toContain(">04<");
+    expect(html).toContain(">03<");
+    expect(html).toContain(">02<");
+    expect(html).toContain(">day<");
+    expect(html).toContain(">sec<");
     expect(anchors(html).some((link) => link.href === TIMELINE_HREF)).toBe(
       false
     );
