@@ -27,7 +27,13 @@ export default function Counter(props: BirthdayStatus) {
     };
   }, []);
 
-  const { isBirthday, isEve, age, dateDays } = status;
+  const { isBirthday, age, days, hours, minutes, seconds } = status;
+  const counts = [
+    { unit: "day", value: String(days) },
+    { unit: "hour", value: String(hours).padStart(2, "0") },
+    { unit: "min", value: String(minutes).padStart(2, "0") },
+    { unit: "sec", value: String(seconds).padStart(2, "0") }
+  ];
 
   return (
     <>
@@ -77,14 +83,23 @@ export default function Counter(props: BirthdayStatus) {
               </a>
             </div>
           </>
-        ) : isEve ? (
-          <p class="text-display leading-[1.4]">明日は誕生日！</p>
         ) : (
-          <p class="text-display leading-[1.4]">
-            やまのくの誕生日まで
-            <br />
-            あと{dateDays}日
-          </p>
+          <>
+            <noscript>
+              JavaScriptを許可するとカウントダウンタイマーが動きます
+            </noscript>
+            <div class="text-display">やまのくの誕生日まで</div>
+            <div class="flex items-center justify-center mt-25">
+              {counts.map(({ unit, value }) => (
+                <p key={unit}>
+                  <span class="block text-count-number mx-10 tracking-number">
+                    {value}
+                  </span>
+                  <span class="block text-count-value text-gray">{unit}</span>
+                </p>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </>
